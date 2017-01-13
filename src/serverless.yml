@@ -1,0 +1,45 @@
+service: aws-node-alexa-skill
+
+frameworkVersion: ">=1.4.0 <2.0.0"
+
+package:
+  exclude:
+    #- speechAssets/**
+    #- events/**
+    #- deploy-s3/images/**
+    - npm-scripts/**
+    - deploy-s3/**
+    - s3-cors.json
+    - config/dev.skill.config.json
+    - config/prod.skill.config.json    
+    # remove node modules only needed for npm scripts
+    - node_modules/attrs.argv/**
+    - node_modules/cp/**
+    - node_modules/npm-run-script/**
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  region: us-east-1
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: ${self:custom.profiles.${self:provider.stage}}
+
+custom:
+  defaultStage: dev
+  profiles:
+    dev: devProfile
+    prod: prodProfile
+
+functions:
+  alexa-skill:
+    handler: handler.skill
+    events:
+      - alexaSkill 
+
+#resources:
+#  Resources:
+#    SkillBucket:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: alexa-starter-skill      
+#        AccessControl: PublicRead

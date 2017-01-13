@@ -1,0 +1,35 @@
+{
+  "name": "aws-alexa-skill",
+  "config": {
+    "s3bucket": "alexa-starter-skill"
+  },
+  "version": "1.0.0",
+  "description": "This example demonstrates how to use an AWS Lambdas for your custom Alexa skill.",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "deploy:dev": "npm run deploy:dev:sls && npm run deploy:dev:s3",
+    "deploy:dev:sls": "npm run copy:dev:config && serverless --stage=dev deploy",
+    "deploy:dev:s3": "npm run copy:trans && node ./npm-scripts/deploy-s3.js --stage=dev",   
+    "predeploy:dev:s3": "node ./npm-scripts/pre-deploy-s3.js --stage=dev",
+    "copy:dev:config": "cp ./config/dev.skill.config.json ./config/skill.config.json",
+    "copy:trans": "cp translations.json deploy-s3/",
+    "deploy:prod": "npm run deploy:prod:sls && npm run deploy:prod:s3",
+    "deploy:prod:sls": "npm run copy:prod:config && serverless --stage=prod deploy",
+    "deploy:prod:s3": "npm run copy:trans && node ./npm-scripts/deploy-s3.js --stage=prod",
+    "predeploy:prod:s3": "node ./npm-scripts/pre-deploy-s3.js --stage=prod",
+    "copy:prod:config": "cp ./config/prod.skill.config.json ./config/skill.config.json"
+  },
+  "dependencies": {
+    "alexa-sdk": "^1.0.6",
+    "aws-sdk": "^2.7.19",
+    "lodash": "^4.16.4",
+    "synchronize": "alexeypetrushin/synchronize"
+  },
+  "devDependencies": {
+    "attrs.argv": "^0.2.0-a",
+    "aws-sdk": "^2.7.19",
+    "cp": "^0.2.0",
+    "npm-run-script": "0.0.4"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "en": {
+    "translation": {
+      "skill": {
+        "name": "Skill Name"
+      },      
+      "about": {
+        "contentVersion": 1,
+        "lastUpdated": "2017-01-12"
+      },
+      "welcome": {
+        "speechOutput": "%s can share facts and maybe do other things.  For more details, say help. So, what would you like?",
+        "reprompt": "What can I tell you about?"
+      },
+      "help": {
+        "speechOutput": "Here are some things you can say: %s If you're done, you can also say: stop. So, how can I help?",
+        "reprompt": "How can I help you?"
+      },
+      "reprompts": [
+        "How can I help you?",
+        "What can I help you with?",
+        "So, how can I help?",
+        "So, what would you like me to tell you?"
+      ],
+      "sampleCommands": [
+        "Tell me a new fact.",
+        "Tell me fact number three.",
+        "Repeat.",
+        "Goodbye."       
+      ],
+      "unhandled": {
+        "speechOutput": "Can you please repeat your request?",
+        "reprompt": "If you are not sure what to ask, say help. To end, you can say: stop."
+      },
+      "goodbye": {
+        "speechOutput": "Goodbye and Thank you!"
+      },
+      "facts": [
+        "Cows go moo",
+        "The grass is green",
+        "The sky is blue",
+        "Alexa is my friend"
+      ],
+      "getFact": {
+        "title": "Fact %d",
+        "invalidIndex": "I cannot find fact %d. Currently, I have %d facts that I can share. Please ask for a different fact number, a new fact, or give me a different instruction."
+      }
+    }
+  }
+}

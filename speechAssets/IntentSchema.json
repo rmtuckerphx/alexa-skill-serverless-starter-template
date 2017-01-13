@@ -1,0 +1,28 @@
+{
+  "intents": [
+    {
+      "intent": "GetNewFactIntent"
+    },    
+    {
+      "intent": "GetFactByNumberIntent",
+      "slots": [
+        {
+          "name": "number",
+          "type": "AMAZON.NUMBER"
+        }
+      ]      
+    },    
+    {
+      "intent": "AMAZON.RepeatIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}

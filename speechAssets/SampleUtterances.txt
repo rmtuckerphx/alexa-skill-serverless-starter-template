@@ -1,0 +1,21 @@
+GetNewFactIntent a fact
+GetNewFactIntent tell me a fact
+GetNewFactIntent tell me a new fact
+GetNewFactIntent give me a fact
+GetNewFactIntent give me a new fact
+GetNewFactIntent tell me trivia
+GetNewFactIntent give me trivia
+GetNewFactIntent give me some information
+GetNewFactIntent tell me something
+GetNewFactIntent tell me something I don't know
+GetNewFactIntent tell me something interesting
+GetNewFactIntent tell me something cool
+GetNewFactIntent tell me a cool fact
+GetFactByNumberIntent fact number {number}
+GetFactByNumberIntent tell me fact number {number}
+GetFactByNumberIntent tell me fact {number}
+AMAZON.StopIntent stop
+AMAZON.StopIntent off
+AMAZON.StopIntent end
+AMAZON.StopIntent quit
+AMAZON.StopIntent goodbye
