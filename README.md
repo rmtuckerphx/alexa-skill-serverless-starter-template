@@ -21,8 +21,10 @@ The following are used in this template:
     - DynamoDB (optional)
 
 
-## Install AWS CLI?
-Note: need to verify if this is needed.
+## Install AWS CLI
+The AWS Command Line Interface is used during deployment to create an S3 bucket and copy to it content such as images, audio, and translations. 
+
+Follow the AWS documentation at: [Installing the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
 
 
 ## Install Serverless Framework
@@ -68,6 +70,32 @@ serverless config credentials --provider aws --key someKey --secret someSecret -
 ```bash
 serverless config credentials --provider aws --key someKey --secret someSecret --profile prodProfile
 ```
+
+Running the above commands, will add profiles to your local `.aws/credentials` file.
+
+To list the contents of the .aws folder, execute the command:
+
+**Linux, OS X, or Unit**
+```bash
+$ ls  ~/.aws
+```
+**Windows**
+```bash
+> dir %UserProfile%\.aws
+```
+
+The contents of the `credentials` file will look something like this:
+
+```
+[devProfile]
+aws_access_key_id=AKIA...
+aws_secret_access_key=g0N...
+
+[prodProfile]
+aws_access_key_id=AKIA...
+aws_secret_access_key=d+M...
+```
+For this example, the access key and secret have been truncated.
 
 ## Set Lambda Name in serverless.yml
 Edit `src/serverless.yml` and change the name of the node from `alexa-skill` to the name of your skill:
@@ -132,7 +160,7 @@ $ npm run deploy:prod:sls
 ```
 
 ## Create a Separate Alexa Skill for Development and Production
-Add steps here
+Follow the example shown [here](https://github.com/serverless/examples/tree/master/aws-node-alexa-skill#setup)
 
 ## Copy the Alexa Skill ID to Skill Configuration Files
 At the top of the screen when creating a skill, there is a Skill ID. Copy that value to the corresponding skill configuration file:
