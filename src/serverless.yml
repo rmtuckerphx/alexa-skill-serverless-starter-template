@@ -4,9 +4,6 @@ frameworkVersion: ">=1.4.0 <2.0.0"
 
 package:
   exclude:
-    #- speechAssets/**
-    #- events/**
-    #- deploy-s3/images/**
     - npm-scripts/**
     - deploy-s3/**
     - s3-cors.json
@@ -25,7 +22,7 @@ provider:
   stage: ${opt:stage, self:custom.defaultStage}
   profile: ${self:custom.profiles.${self:provider.stage}}
   memorySize: 512
-  
+
 custom:
   defaultStage: dev
   profiles:
@@ -33,15 +30,7 @@ custom:
     prod: prodProfile
 
 functions:
-  alexa-skill:
+  skill:
     handler: handler.skill
     events:
       - alexaSkill 
-
-#resources:
-#  Resources:
-#    SkillBucket:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: alexa-starter-skill      
-#        AccessControl: PublicRead

@@ -1,7 +1,6 @@
 'use strict';
 var aws = require('aws-sdk');
-// var Constants = require('./constants.json');
-var Config = require('../config/skill.config');
+var Config = require('./config/skill.config');
 
 var bucketName = Config.s3.bucketName;
 var key = Config.s3.transKey;

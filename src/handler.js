@@ -4,7 +4,7 @@ var Alexa = require('alexa-sdk');
 var _ = require('lodash');
 
 var Translations = require('./translations');
-var Config = require('../config/skill.config');
+var Config = require('./config/skill.config');
 var Util = require('./util');
 var FactsHelper = require('./factsHelper');
 
@@ -27,7 +27,7 @@ var FactsHelper = require('./factsHelper');
 
 
 module.exports.skill = (event, context, callback) => {
-    const useLocalResources = event.request.debug;
+    let useLocalResources = event.request.debug;
     useLocalResources = true;
 
     Translations.getResources(useLocalResources)
