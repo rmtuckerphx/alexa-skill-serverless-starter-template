@@ -97,15 +97,34 @@ aws_secret_access_key=d+M...
 ```
 For this example, the access key and secret have been truncated.
 
-## Set Lambda Name in serverless.yml
-Edit `src/serverless.yml` and change the name of the node from `alexa-skill` to the name of your skill:
+## Configure Project Files
+The following files have placeholders that need to be replaced before a deploy can occur:
 
-**src/serverless.yml**
-```json
-functions:
-  alexa-skill:
-    handler: handler.skill
+| File |  Placeholder(s) |
+|---|---|
+| `src/serverless.yml` | YOUR_SERVICE_NAME |
+| `src/translations.json` | YOUR_SKILL_NAME |
+| `src/config/dev.skill.config.json` | YOUR_BUCKET_NAME, YOUR_TABLE_NAME  |
+| `src/config/prod.skill.config.json` | YOUR_BUCKET_NAME, YOUR_TABLE_NAME  |
+
+The meaning of these placeholders are:
+
+| Placeholder |  Description |
+|---|---|
+| YOUR_SKILL_NAME | Required. The user friendly (and translatable) name of your skill that can be used in SSML or cards. |
+| YOUR_SERVICE_NAME | Required. The name of your service and part of the Serverless Framework. It forms part of the name for the Lambda function. |
+| YOUR_BUCKET_NAME | Required. The name of the S3 bucket that contains content for this skill. |
+| YOUR_TABLE_NAME | Optional. The name of the Dynamo DB table used to store user settings. |
+
+There are three ways you can update these placeholder values:
+1. Manually open each file and replace the placeholder value with the actual value
+2. Run `npm run configure` with no parameters. You will be prompted for values.
+3. Run the configure command with parameters: 
+
+```bash
+npm run configure -- --skillName "Fun Facts" --lambdaServiceName 'fun-facts' --s3BucketName 'mycompay-myskill' --dynamoDBTableName 'myskillUsers'
 ```
+Note: Make sure to include the "--" after the word, configure.
 
 ## Initial Deploy to AWS Lambda
 The first deploy of the skill to AWS Lamba using the Serverless Framework creates the AWS Lambda ARN.
@@ -249,6 +268,7 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 
 | Script | Stage | Description |
 |---|---|---|
+| configure | dev & prod | run once before deployment to replace placeholders in files |
 | deploy:dev | dev | runs all the deployment scripts including `serverless deploy` |
 | deploy:dev:sls | dev | runs `serverless deploy` which includes copying the correct stage config file, zipping up the skill and deploying to AWS Lambda |
 | predeploy:dev:s3 | dev | creates the S3 bucket and sets its CORS configuration |

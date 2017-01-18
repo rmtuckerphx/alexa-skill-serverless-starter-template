@@ -1,8 +1,8 @@
 {
     "skillAppID": "prod.appID",
-    "dynamoDBTableName": "mySkillUsers",
+    "dynamoDBTableName": "YOUR_TABLE_NAME",
     "s3": {
-        "bucketName": "myCompany-mySkillName",
+        "bucketName": "YOUR_BUCKET_NAME",
         "transKey": "translations.json"
     }
 }

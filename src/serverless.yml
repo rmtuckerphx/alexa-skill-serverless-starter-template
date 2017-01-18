@@ -1,4 +1,4 @@
-service: aws-node-alexa-skill
+service: YOUR_SERVICE_NAME
 
 frameworkVersion: ">=1.4.0 <2.0.0"
 
@@ -16,6 +16,7 @@ package:
     - node_modules/attrs.argv/**
     - node_modules/cp/**
     - node_modules/npm-run-script/**
+    - node_modules/prompt/**
 
 provider:
   name: aws
