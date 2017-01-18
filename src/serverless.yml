@@ -24,7 +24,8 @@ provider:
   region: us-east-1
   stage: ${opt:stage, self:custom.defaultStage}
   profile: ${self:custom.profiles.${self:provider.stage}}
-
+  memorySize: 512
+  
 custom:
   defaultStage: dev
   profiles:
