@@ -8,7 +8,7 @@ const fs = require('fs');
 //
 // Check if configure has already been run. It can only be run once.
 //
-if (config.s3.bucketName !== 'YOUR_BUCKET_NAME') {
+if (config.skillNamespace != 'YOUR_NAMESPACE') {
     console.log('The configure command can only be run once and it has already been run.');
     return;
 }
@@ -36,26 +36,12 @@ const options = [
         required: true
     },
     {
-        name: 's3BucketName',
-        description: 'S3 Bucket Name',
+        name: 'skillNamespace',
+        description: 'Skill Namespace',
         type: 'string',
-        default: 'myCompany-mySkillName',
+        default: 'organization-skillname',
         required: true
-    },
-    {
-        name: 'lambdaServiceName',
-        description: 'Lambda Service Name',
-        type: 'string',
-        default: 'aws-node-alexa-skill',
-        required: true
-    },
-    {
-        name: 'dynamoDBTableName',
-        description: 'Dynamo DB Table Name',
-        type: 'string',
-        default: 'mySkillUser',
-        required: false
-    },
+    }
 ]
 
 prompt.get(options, function (err, result) {
@@ -64,26 +50,22 @@ prompt.get(options, function (err, result) {
     //
     console.log('Command-line input received:');
     console.log('  skillName: ' + result.skillName);
-    console.log('  s3BucketName: ' + result.s3BucketName);
-    console.log('  lambdaServiceName: ' + result.lambdaServiceName);
-    console.log('  dynamoDBTableName: ' + result.dynamoDBTableName);
+    console.log('  skillNamespace: ' + result.skillNamespace);
 
     //
     // Replace placeholders
     //
-    modifyFiles(['../src/config/dev.skill.config.json', '../src/config/prod.skill.config.json', '../src/translations.json', '../src/serverless.yml'], [{
+    modifyFiles(['../src/config/dev.skill.config.json', '../src/config/prod.skill.config.json', '../src/translations.json', '../src/serverless.yml'], 
+    [
+    {
         regexp: /YOUR_SKILL_NAME/g,
         replacement: result.skillName
-    }, {
-        regexp: /YOUR_BUCKET_NAME/g,
-        replacement: result.s3BucketName
-    }, {
-        regexp: /YOUR_SERVICE_NAME/g,
-        replacement: result.lambdaServiceName
-    }, {
-        regexp: /YOUR_TABLE_NAME/g,
-        replacement: result.dynamoDBTableName
-    }]);
+    }, 
+    {
+        regexp: /YOUR_NAMESPACE/g,
+        replacement: result.skillNamespace
+    }
+    ]);
 })
 
 function modifyFiles(files, replacements) {

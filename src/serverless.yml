@@ -1,4 +1,4 @@
-service: YOUR_SERVICE_NAME
+service: YOUR_NAMESPACE-service
 
 frameworkVersion: ">=1.4.0 <2.0.0"
 
@@ -26,8 +26,8 @@ provider:
 custom:
   defaultStage: dev
   profiles:
-    dev: devProfile
-    prod: prodProfile
+    dev: YOUR_NAMESPACE-profile-dev
+    prod: YOUR_NAMESPACE-profile-prod
 
 functions:
   skill:
