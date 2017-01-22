@@ -24,36 +24,46 @@ The following are used in this template:
 
 
 ## Quick Setup
+Only 9 steps and no more than 9 minutes:
 
 1. Install Serverless Framework
 ```bash
 $ npm install -g serverless 
 ```
+
 2. Install AWS CLI: [Installing the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+
 3. Clone Repo
 ```bash
 $ git clone https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
 $ cd myskill/src
 $ npm install
 ```
+
 4. Configure the project
 ```bash
 $ npm run configure
 ```
+
 5. Create IAM Users
 ```bash
 $ npm run iam
 ```
+
 6. Initial deploy to AWS Lambda & copy Lambda ARN
 ```bash
 $ npm run deploy:dev:sls
 ```
+
 7. Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html)
+
 8. Copy Alexa Skill ID to config files
+
 9. Deploy skill to AWS Lambda & S3
 ```bash
 $ npm run deploy:dev
 ```
+
 ## Detailed Setup
 The above Quick Setup is explained in more detail in this section.
 
