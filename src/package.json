@@ -8,21 +8,21 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "iam": "npm run iam:dev && npm run iam:prod",
     "configure": "node ./npm-scripts/configure.js",
+    "iam": "npm run iam:dev && npm run iam:prod",
     "iam:dev": "node ./npm-scripts/create-iam.js --stage=dev",
+    "iam:prod": "node ./npm-scripts/create-iam.js --stage=prod",
+    "copy:trans": "node ./npm-scripts/copy-file.js translations.json deploy-s3/",
+    "copy:dev:config": "node ./npm-scripts/copy-file.js ./config/dev.skill.config.json ./config/skill.config.json",
+    "copy:prod:config": "node ./npm-scripts/copy-file.js ./config/prod.skill.config.json ./config/skill.config.json",
     "deploy:dev": "npm run deploy:dev:sls && npm run deploy:dev:s3",
     "deploy:dev:sls": "node ./npm-scripts/check-configure.js && npm run copy:dev:config && serverless --stage=dev deploy",
     "deploy:dev:s3": "npm run copy:trans && node ./npm-scripts/deploy-s3.js --stage=dev",
     "predeploy:dev:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=dev",
-    "copy:dev:config": "cp ./config/dev.skill.config.json ./config/skill.config.json",
-    "copy:trans": "cp translations.json deploy-s3/",
-    "iam:prod": "node ./npm-scripts/create-iam.js --stage=prod",
     "deploy:prod": "npm run deploy:prod:sls && npm run deploy:prod:s3",
     "deploy:prod:sls": "node ./npm-scripts/check-configure.js && npm run copy:prod:config && serverless --stage=prod deploy",
     "deploy:prod:s3": "npm run copy:trans && node ./npm-scripts/deploy-s3.js --stage=prod",
-    "predeploy:prod:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=prod",
-    "copy:prod:config": "cp ./config/prod.skill.config.json ./config/skill.config.json"
+    "predeploy:prod:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=prod"
   },
   "dependencies": {
     "alexa-sdk": "^1.0.6",
