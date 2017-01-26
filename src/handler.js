@@ -8,27 +8,8 @@ var Config = require('./config/skill.config');
 var Util = require('./util');
 var FactsHelper = require('./factsHelper');
 
-
-// module.exports.skill = (event, context, callback) => {
-//   const upperLimit = event.request.intent.slots.UpperLimit.value || 100;
-//   const number = getRandomInt(0, upperLimit);
-//   const response = {
-//     version: '1.0',
-//     response: {
-//       outputSpeech: {
-//         type: 'PlainText',
-//         text: `Your lucky number is ${number}`,
-//       },
-//     },
-//   };
-
-//   callback(null, response);
-// };
-
-
 module.exports.skill = (event, context, callback) => {
-    let useLocalResources = event.request.debug;
-    useLocalResources = true;
+    let useLocalResources = event.request.debug || false;
 
     Translations.getResources(useLocalResources)
         .then(function (data) {
