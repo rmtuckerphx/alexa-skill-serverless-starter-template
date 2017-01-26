@@ -22,19 +22,22 @@ The following are used in this template:
     - Simple Storage Service (S3)
     - DynamoDB (optional)
 
-
-## Quick Setup
-Only 9 steps and no more than 9 minutes:
-
-1. Install Serverless Framework
+## First-Time-Only Setup
+1. Create an Amazon Web Service account
+2. Create a user instead of the AWS account root user: [Creating Your First IAM Admin User and Group](http://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html) (save the .csv file locally)
+2. Install AWS CLI: [Installing the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+3. Configure AWS locally: [Quick Configuration](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
+4. Install Serverless Framework
 
     ```bash
     $ npm install -g serverless 
     ```
 
-2. Install AWS CLI: [Installing the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
 
-3. Clone Repo
+## Quick Setup
+Only 7 steps and no more than 7 minutes:
+
+1. Clone project repository
 
     ```bash
     $ git clone https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
@@ -42,29 +45,29 @@ Only 9 steps and no more than 9 minutes:
     $ npm install
     ```
 
-4. Configure the project
+2. Configure the project
 
     ```bash
     $ npm run configure
     ```
 
-5. Create IAM Users
+3. Create IAM Users
 
     ```bash
     $ npm run iam
     ```
 
-6. Initial deploy to AWS Lambda & copy Lambda ARN
+4. Initial deploy to AWS Lambda & copy Lambda ARN
 
     ```bash
     $ npm run deploy:dev:sls
     ```
 
-7. Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html)
+5. Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html)
 
-8. Copy Alexa Skill ID to config files
+6. Copy Alexa Skill ID to config files
 
-9. Deploy skill to AWS Lambda & S3
+7. Deploy skill to AWS Lambda & S3
 
     ```bash
     $ npm run deploy:dev
@@ -326,7 +329,12 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 | Script | Stage | Description |
 |---|---|---|
 | configure | dev & prod | run once before deployment to replace placeholders in files |
-| deploy:dev | dev | runs all the deployment scripts including `serverless deploy` |
+| iam | dev & prod | creates & configures IAM users for both dev and prod |
+| iam:dev | dev | creates & configures an IAM user for dev |
+| iam:prod | prod | creates & configures an IAM user for prod || deploy:dev | dev | runs all the deployment scripts including `serverless deploy` |
+| copy:trans | dev & prod | copies `translations.json` to the `deploy-s3` folder before S3 is deployed |
+| copy:dev:config | dev | copies `dev.skill.config.json` to `skill.config.json` before Lambda is deployed
+| copy:prod:config | prod | copies `prod.skill.config.json` to `skill.config.json` before Lambda is deployed
 | deploy:dev:sls | dev | runs `serverless deploy` which includes copying the correct stage config file, zipping up the skill and deploying to AWS Lambda |
 | predeploy:dev:s3 | dev | creates the S3 bucket and sets its CORS configuration |
 | deploy:dev:s3 | dev | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `src/deploy-s3` folder to the bucket in S3 |
@@ -334,11 +342,6 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 | deploy:prod:sls | prod | runs `serverless deploy` which includes copying the correct stage config file, zipping up the skill and deploying to AWS Lambda |
 | predeploy:prod:s3 | prod | creates the S3 bucket and sets its CORS configuration |
 | deploy:prod:s3 | prod | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `src/deploy-s3` folder to the bucket in S3 |
-| copy:trans | dev & prod | copies `translations.json` to the `deploy-s3` folder before S3 is deployed |
-| copy:dev:config | dev | copies `dev.skill.config.json` to `skill.config.json` before Lambda is deployed
-| copy:prod:config | prod | copies `prod.skill.config.json` to `skill.config.json` before Lambda is deployed
-| iam | dev & prod | creates & configures IAM users for both dev and prod |
-| iam:dev | dev | creates & configures an IAM user for dev |
-| iam:prod | prod | creates & configures an IAM user for prod |
+
 
 
