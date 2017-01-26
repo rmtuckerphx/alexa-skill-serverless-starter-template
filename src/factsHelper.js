@@ -20,49 +20,32 @@ module.exports = (function () {
 
             if (Util.persistIndexToAttributes(list, index, this.attributes, persistKey)) {
 
-                sync.fiber(() => {
 
-                    var attributes = {
-                        number: itemNumber.toString()
-                    };
+                var item = list[index];
 
-                    sync.await(this.recordMobileAnalyticsEvent('Fact Found', this.event.session.sessionId, attributes, null, sync.defer()));
+                var title = this.t('getFact.title', itemNumber);
+                var speechOutput = title + ': ' + item + ' <break time=\"500ms\"/> ' + reprompt;
 
-                    var item = list[index];
+                this.attributes.speechOutput = speechOutput;
+                this.attributes.repromptSpeech = reprompt;
 
-                    var title = this.t('getFact.title', itemNumber);
-                    var speechOutput = title + ': ' + item + ' <break time=\"500ms\"/> ' + reprompt;
-
-                    this.attributes.speechOutput = speechOutput;
-                    this.attributes.repromptSpeech = reprompt;
-
-                    if (this.event.session['new']) {
-                        this.emit(':tellWithCard', speechOutput, reprompt, title, Util.replaceTags(item));
-                    }
-                    else {
-                        this.emit(':askWithCard', speechOutput, reprompt, title, Util.replaceTags(item));
-                    }
-                });
+                if (this.event.session['new']) {
+                    this.emit(':tellWithCard', speechOutput, reprompt, title, Util.replaceTags(item));
+                }
+                else {
+                    this.emit(':askWithCard', speechOutput, reprompt, title, Util.replaceTags(item));
+                }
             }
             else {
 
-                sync.fiber(() => {
+                reprompt = _.sample(this.t('reprompts'));
+                var invalidIndex = this.t('getFact.invalidIndex', itemNumber, list.length);
+                var speechOutput = invalidIndex + ' ' + reprompt;
 
-                    var attributes = {
-                        number: itemNumber.toString()
-                    };
+                this.attributes.speechOutput = speechOutput;
+                this.attributes.repromptSpeech = reprompt;
 
-                    sync.await(this.recordMobileAnalyticsEvent('Fact NotFound', this.event.session.sessionId, attributes, null, sync.defer()));
-
-                    reprompt = _.sample(this.t('reprompts'));
-                    var invalidIndex = this.t('getFact.invalidIndex', itemNumber, list.length);
-                    var speechOutput = invalidIndex + ' ' + reprompt;
-
-                    this.attributes.speechOutput = speechOutput;
-                    this.attributes.repromptSpeech = reprompt;
-
-                    this.emit(':ask', speechOutput, reprompt);
-                });
+                this.emit(':ask', speechOutput, reprompt);
             }
         }
     };
