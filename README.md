@@ -44,7 +44,8 @@ The following are used in this template:
     ```bash
     $ npm install -g serverless 
     ```
-
+7. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+8. Install a code editor. The detailed steps will show you how to use [Visual Studio Code](https://code.visualstudio.com/) to debug your Node.js code locally.
 
 ## Quick Setup
 Only 7 steps and no more than 7 minutes:
