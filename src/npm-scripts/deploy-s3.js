@@ -10,7 +10,7 @@ const bucketName = config.s3.bucketName;
 const skillNamespace = config.skillNamespace;
 const profileName = helper.getProfileName(skillNamespace, stage);
 
-const command = 'aws s3 sync ./deploy-s3 s3://' + bucketName + '/ --profile ' + profileName + ' --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers';
+const command = 'aws s3 sync ../deploy-s3 s3://' + bucketName + '/ --profile ' + profileName + ' --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers';
 
 const child = npmRunScript(command, { stdio: 'inherit' }); 
 child.once('error', (error) => { process.exit(1); });

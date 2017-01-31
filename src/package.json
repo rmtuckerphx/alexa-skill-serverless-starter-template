@@ -9,7 +9,7 @@
     "iam": "npm run iam:dev && npm run iam:prod",
     "iam:dev": "node ./npm-scripts/create-iam.js --stage=dev",
     "iam:prod": "node ./npm-scripts/create-iam.js --stage=prod",
-    "copy:trans": "node ./npm-scripts/copy-file.js translations.json deploy-s3/translations.json",
+    "copy:trans": "node ./npm-scripts/copy-file.js translations.json ../deploy-s3/translations.json",
     "copy:dev:config": "node ./npm-scripts/copy-file.js ./config/dev.skill.config.json ./config/skill.config.json",
     "copy:prod:config": "node ./npm-scripts/copy-file.js ./config/prod.skill.config.json ./config/skill.config.json",
     "deploy:dev": "npm run deploy:dev:sls && npm run deploy:dev:s3",

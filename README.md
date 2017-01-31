@@ -4,7 +4,7 @@ An Alexa Skill starter project template that uses the [Serverless Framework](htt
 This template includes the following features:
 - Creates IAM Users with permissions and local profiles for development and production stages
 - Automates packaging of skill into a ZIP file and deployment to AWS Lambda
-- Creates an S3 bucket, enables CORS, and uploads all files and folders placed in the `src/deploy-s3` folder
+- Creates an S3 bucket, enables CORS, and uploads all files and folders placed in the `deploy-s3` folder
 - Separate AWS Lambda and S3 deployments for development and production stages
 - All skill configurations are in a separate file based on the stage and can be found in the `src/config` folder
     - `dev.skill.config.json` - development configuration; copied to `skill.config.json` before deployment to development Lambda
@@ -274,7 +274,7 @@ At the top of the screen when creating a skill, there is a Skill ID. Copy that v
 
 
 ### Deploying Files to S3
-Any files and folders in the `src/deploy-s3` folder will be copied to an 
+Any files and folders in the `deploy-s3` folder will be copied to an 
 S3 bucket. If you have audio files to use in SSML or images for Home Cards
 this is the place for them.
 
@@ -303,7 +303,7 @@ The bucket that will be created for each of the stages will be:
 |  dev  | `organization-skillname-dev` |
 |  prod | `organization-skillname`     |
 
-The `translations.json` file is copied to the `src/deploy-s3` folder
+The `translations.json` file is copied to the `deploy-s3` folder
 before the folder is copied to the S3 bucket.
 
 The deploy uses the contents of the `src/s3-cors.json` file to set the CORS
@@ -351,11 +351,11 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 | copy:prod:config | prod | copies `prod.skill.config.json` to `skill.config.json` before Lambda is deployed
 | deploy:dev:sls | dev | runs `serverless deploy` which includes copying the correct stage config file, zipping up the skill and deploying to AWS Lambda |
 | predeploy:dev:s3 | dev | creates the S3 bucket and sets its CORS configuration |
-| deploy:dev:s3 | dev | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `src/deploy-s3` folder to the bucket in S3 |
+| deploy:dev:s3 | dev | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `deploy-s3` folder to the bucket in S3 |
 | deploy:prod | prod | runs all the deployment scripts including `serverless deploy` |
 | deploy:prod:sls | prod | runs `serverless deploy` which includes copying the correct stage config file, zipping up the skill and deploying to AWS Lambda |
 | predeploy:prod:s3 | prod | creates the S3 bucket and sets its CORS configuration |
-| deploy:prod:s3 | prod | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `src/deploy-s3` folder to the bucket in S3 |
+| deploy:prod:s3 | prod | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `deploy-s3` folder to the bucket in S3 |
 
 
 

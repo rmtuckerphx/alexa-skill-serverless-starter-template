@@ -5,7 +5,6 @@ frameworkVersion: ">=1.4.0 <2.0.0"
 package:
   exclude:
     - npm-scripts/**
-    - deploy-s3/**
     - s3-cors.json
     - config/dev.skill.config.json
     - config/prod.skill.config.json    
