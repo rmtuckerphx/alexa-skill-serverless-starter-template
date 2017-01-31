@@ -18,7 +18,7 @@ package:
 provider:
   name: aws
   runtime: nodejs4.3
-  region: us-east-1
+  region: YOUR_REGION
   stage: ${opt:stage, self:custom.defaultStage}
   profile: ${self:custom.profiles.${self:provider.stage}}
   memorySize: 512

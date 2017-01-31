@@ -20,6 +20,7 @@ The following are used in this template:
     - Identity and Access Management (IAM)
     - Lambda
     - Simple Storage Service (S3)
+    - CloudFormation
     - DynamoDB (optional)
 
 ## First-Time-Only Setup
@@ -125,10 +126,11 @@ The following files have placeholders that need to be replaced before other comm
 
 | File |  Placeholder(s) |
 |---|---|
+| `src/package.json` | YOUR_NAMESPACE, YOUR_SKILL_NAME  |
 | `src/translations.json` | YOUR_SKILL_NAME |
-| `src/serverless.yml` | YOUR_NAMESPACE |
-| `src/config/dev.skill.config.json` | YOUR_NAMESPACE  |
-| `src/config/prod.skill.config.json` | YOUR_NAMESPACE  |
+| `src/serverless.yml` | YOUR_NAMESPACE, YOUR_REGION |
+| `src/config/dev.skill.config.json` | YOUR_NAMESPACE, YOUR_REGION  |
+| `src/config/prod.skill.config.json` | YOUR_NAMESPACE, YOUR_REGION  |
 
 The meaning of these placeholders are:
 
@@ -136,6 +138,7 @@ The meaning of these placeholders are:
 |---|---|
 | YOUR_SKILL_NAME | Required. The user friendly (and translatable) name of your skill that can be used in SSML or cards. |
 | YOUR_NAMESPACE | Required. Your organization and skill name (ex: organization-skillname) that is used in creating the names for the service, profiles, users.
+| YOUR_REGION | Required. The region to deploy the Lambda function and S3 bucket (ex: us-east-1).
 
 There are three ways you can update these placeholder values:
 1. Manually open each file and replace the placeholder value with the actual value
@@ -143,7 +146,7 @@ There are three ways you can update these placeholder values:
 3. Run the configure command with parameters: 
 
 ```bash
-npm run configure -- --skillName 'Fun Facts' --skillNamespace 'organization-skillname'
+$ npm run configure -- --skillName 'Fun Facts' --skillNamespace 'organization-skillname' --region 'us-east-1'
 ```
 Note: Make sure to include the "--" after the word, configure.
 

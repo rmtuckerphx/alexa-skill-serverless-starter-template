@@ -41,7 +41,14 @@ const options = [
         type: 'string',
         default: 'organization-skillname',
         required: true
-    }
+    },
+    {
+        name: 'region',
+        description: 'Region',
+        type: 'string',
+        default: 'us-east-1',
+        required: true
+    }    
 ]
 
 prompt.get(options, function (err, result) {
@@ -51,11 +58,12 @@ prompt.get(options, function (err, result) {
     console.log('Command-line input received:');
     console.log('  skillName: ' + result.skillName);
     console.log('  skillNamespace: ' + result.skillNamespace);
+    console.log('  region: ' + result.region);
 
     //
     // Replace placeholders
     //
-    modifyFiles(['../src/config/dev.skill.config.json', '../src/config/prod.skill.config.json', '../src/translations.json', '../src/serverless.yml'], 
+    modifyFiles(['../src/config/dev.skill.config.json', '../src/config/prod.skill.config.json', '../src/translations.json', '../src/serverless.yml', '../src/package.json'], 
     [
     {
         regexp: /YOUR_SKILL_NAME/g,
@@ -64,7 +72,11 @@ prompt.get(options, function (err, result) {
     {
         regexp: /YOUR_NAMESPACE/g,
         replacement: result.skillNamespace
-    }
+    },
+    {
+        regexp: /YOUR_REGION/g,
+        replacement: result.region
+    }    
     ]);
 })
 

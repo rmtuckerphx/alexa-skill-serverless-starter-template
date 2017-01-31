@@ -1,10 +1,7 @@
 {
-  "name": "aws-alexa-skill",
-  "config": {
-    "s3bucket": "alexa-starter-skill"
-  },
+  "name": "YOUR_NAMESPACE",
   "version": "1.0.0",
-  "description": "This example demonstrates how to use an AWS Lambdas for your custom Alexa skill.",
+  "description": "YOUR_SKILL_NAME description here.",
   "author": "",
   "license": "MIT",
   "scripts": {
