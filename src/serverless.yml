@@ -20,7 +20,7 @@ provider:
   region: YOUR_REGION
   stage: ${opt:stage, self:custom.defaultStage}
   profile: ${self:custom.profiles.${self:provider.stage}}
-  memorySize: 512
+  memorySize: 128
 
 custom:
   defaultStage: dev
@@ -30,6 +30,6 @@ custom:
 
 functions:
   skill:
-    handler: handler.skill
+    handler: main.handler
     events:
       - alexaSkill 

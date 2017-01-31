@@ -8,7 +8,7 @@ var Config = require('./config/skill.config');
 var Util = require('./util');
 var FactsHelper = require('./factsHelper');
 
-module.exports.skill = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
     let useLocalResources = event.request.debug || false;
 
     Translations.getResources(useLocalResources)
