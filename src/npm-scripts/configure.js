@@ -63,7 +63,12 @@ prompt.get(options, function (err, result) {
     //
     // Replace placeholders
     //
-    modifyFiles(['../src/config/dev.skill.config.json', '../src/config/prod.skill.config.json', '../src/translations.json', '../src/serverless.yml', '../src/package.json'], 
+    modifyFiles(['../src/config/dev.skill.config.json', 
+    '../src/config/prod.skill.config.json', 
+    '../src/translations.json', 
+    '../src/serverless.yml', 
+    '../src/package.json',
+    '../test/package.json'], 
     [
     {
         regexp: /YOUR_SKILL_NAME/g,

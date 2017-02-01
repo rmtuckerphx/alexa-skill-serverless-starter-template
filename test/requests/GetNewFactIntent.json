@@ -1,0 +1,25 @@
+{
+  "session": {
+    "sessionId": "SessionId.80a1522a-41ae-447b-b098-d4c72773cd79",
+    "application": {
+      "applicationId": ""
+    },
+    "attributes": {
+    },
+    "user": {
+      "userId": "testuser1"
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.cd16e96a-a7e8-465c-b324-11b950b229cb",
+    "locale": "en-US",
+    "timestamp": "2017-01-29T06:06:38Z",
+    "intent": {
+      "name": "GetNewFactIntent",
+      "slots": {}
+    }
+  },
+  "version": "1.0"
+}
