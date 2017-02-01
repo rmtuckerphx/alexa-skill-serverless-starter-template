@@ -13,6 +13,8 @@ package:
     - node_modules/cp/**
     - node_modules/npm-run-script/**
     - node_modules/prompt/**
+    - node_modules/mocha/**
+    - node_modules/urldecode/**
 
 provider:
   name: aws

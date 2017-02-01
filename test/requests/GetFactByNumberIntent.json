@@ -1,0 +1,29 @@
+{
+  "session": {
+    "sessionId": "SessionId.80a1522a-41ae-447b-b098-d4c72773cd79",
+    "application": {
+      "applicationId": ""
+    },
+    "attributes": {},
+    "user": {
+      "userId": "testuser1"
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.52150ad6-a791-42f0-a3c2-93a2eade8998",
+    "locale": "en-US",
+    "timestamp": "2017-01-29T07:59:40Z",
+    "intent": {
+      "name": "GetFactByNumberIntent",
+      "slots": {
+        "number": {
+          "name": "number",
+          "value": "4"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

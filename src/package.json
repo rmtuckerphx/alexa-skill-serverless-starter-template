@@ -14,12 +14,16 @@
     "copy:prod:config": "node ./npm-scripts/copy-file.js ./config/prod.skill.config.json ./config/skill.config.json",
     "deploy:dev": "npm run deploy:dev:sls && npm run deploy:dev:s3",
     "deploy:dev:sls": "node ./npm-scripts/check-configure.js && npm run copy:dev:config && serverless --stage=dev deploy",
+    "postdeploy:dev:sls": "npm run iam:trust:dev && npm run configure:rolearn:dev",
     "deploy:dev:s3": "npm run copy:trans && node ./npm-scripts/deploy-s3.js --stage=dev",
     "predeploy:dev:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=dev",
     "deploy:prod": "npm run deploy:prod:sls && npm run deploy:prod:s3",
     "deploy:prod:sls": "node ./npm-scripts/check-configure.js && npm run copy:prod:config && serverless --stage=prod deploy",
     "deploy:prod:s3": "npm run copy:trans && node ./npm-scripts/deploy-s3.js --stage=prod",
-    "predeploy:prod:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=prod"
+    "predeploy:prod:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=prod",
+    "test": "mocha ../test/e2e/*.js --reporter spec",
+    "configure:rolearn:dev": "node ./npm-scripts/configure-role-arn.js --stage=dev",
+    "iam:trust:dev": "node ./npm-scripts/iam-trust.js --stage=dev"   
   },
   "dependencies": {
     "alexa-sdk": "^1.0.6",
@@ -32,6 +36,8 @@
     "cp": "^0.2.0",
     "npm-run-script": "0.0.4",
     "prompt": "^1.0.0",
-    "synchronize": "alexeypetrushin/synchronize"
+    "synchronize": "alexeypetrushin/synchronize",
+    "urldecode": "^1.0.1",
+    "mocha": "^3.2.0"
   }
 }

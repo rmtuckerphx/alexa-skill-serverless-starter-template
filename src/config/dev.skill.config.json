@@ -6,5 +6,6 @@
         "bucketName": "YOUR_NAMESPACE-dev",
         "transKey": "translations.json"
     },
-    "region": "YOUR_REGION"
+    "region": "YOUR_REGION",
+    "roleArn": "YOUR_ROLE_ARN"
 }

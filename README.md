@@ -50,11 +50,13 @@ The following are used in this template:
 ## Quick Setup
 Only 7 steps and no more than 7 minutes:
 
-1. Clone project repository
+1. Clone project repository. You need to run `npm install` in both the `src` and `test` folders. AFTER THAT all commands are run from `src`.
 
     ```bash
     $ git clone https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
-    $ cd myskill/src
+    $ cd myskill/test
+    $ npm install
+    $ cd ../src
     $ npm install
     ```
 
@@ -128,9 +130,10 @@ The following files have placeholders that need to be replaced before other comm
 | File |  Placeholder(s) |
 |---|---|
 | `src/package.json` | YOUR_NAMESPACE, YOUR_SKILL_NAME  |
+| `test/package.json` | YOUR_NAMESPACE, YOUR_SKILL_NAME  |
 | `src/translations.json` | YOUR_SKILL_NAME |
 | `src/serverless.yml` | YOUR_NAMESPACE, YOUR_REGION |
-| `src/config/dev.skill.config.json` | YOUR_NAMESPACE, YOUR_REGION  |
+| `src/config/dev.skill.config.json` | YOUR_NAMESPACE, YOUR_REGION, YOUR_ROLE_ARN  |
 | `src/config/prod.skill.config.json` | YOUR_NAMESPACE, YOUR_REGION  |
 
 The meaning of these placeholders are:
@@ -138,8 +141,9 @@ The meaning of these placeholders are:
 | Placeholder |  Description |
 |---|---|
 | YOUR_SKILL_NAME | Required. The user friendly (and translatable) name of your skill that can be used in SSML or cards. |
-| YOUR_NAMESPACE | Required. Your organization and skill name (ex: organization-skillname) that is used in creating the names for the service, profiles, users.
-| YOUR_REGION | Required. The region to deploy the Lambda function and S3 bucket (ex: us-east-1).
+| YOUR_NAMESPACE | Required. Your organization and skill name (ex: organization-skillname) that is used in creating the names for the service, profiles, users. |
+| YOUR_REGION | Required. The region to deploy the Lambda function and S3 bucket (ex: us-east-1). |
+| YOUR_ROLE_ARN | Optional. Used during debugging and testing so that Lambda role has trust relationship with test user. Set by `npm run configure:rolearn:dev` which is run by `npm run deploy:dev:sls` |
 
 There are three ways you can update these placeholder values:
 1. Manually open each file and replace the placeholder value with the actual value
@@ -337,8 +341,6 @@ To deploy content to S3 only: `npm run deploy:prod:s3`
 
 To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 
-
-
 ### List of **npm run** scripts
 
 | Script | Stage | Description |
@@ -350,13 +352,51 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 | copy:trans | dev & prod | copies `translations.json` to the `deploy-s3` folder before S3 is deployed |
 | copy:dev:config | dev | copies `dev.skill.config.json` to `skill.config.json` before Lambda is deployed
 | copy:prod:config | prod | copies `prod.skill.config.json` to `skill.config.json` before Lambda is deployed
+| deploy:dev | dev | runs all the deployment scripts including `serverless deploy` |
 | deploy:dev:sls | dev | runs `serverless deploy` which includes copying the correct stage config file, zipping up the skill and deploying to AWS Lambda |
+| postdeploy:dev:sls | dev | runs `iam:trust:dev` and `configure:rolearn:dev` so that code can be debugged and tested locally |
 | predeploy:dev:s3 | dev | creates the S3 bucket and sets its CORS configuration |
 | deploy:dev:s3 | dev | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `deploy-s3` folder to the bucket in S3 |
 | deploy:prod | prod | runs all the deployment scripts including `serverless deploy` |
 | deploy:prod:sls | prod | runs `serverless deploy` which includes copying the correct stage config file, zipping up the skill and deploying to AWS Lambda |
 | predeploy:prod:s3 | prod | creates the S3 bucket and sets its CORS configuration |
 | deploy:prod:s3 | prod | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `deploy-s3` folder to the bucket in S3 |
+| iam:trust:dev | dev | establishes a trust relationship between the dev user and the dev Lambda role for local debugging and testing |
+| configure:rolearn:dev | dev | sets the roleArn property in `dev.skill.config.json` |
+| test | dev | runs unit and e2e tests |
 
+## Debugging and Testing
 
+### Debug & Testing Requests
+The `test/requests` folder contains `.json` files for different requests for your skills. You can use the Skill Developer Console to test your skill and then capture and save those requests here.
+The naming convention that I use is the handler function name is the name of the file.
 
+These requests can be used for both debugging and end-to-end testing.
+
+### Debug Locally
+If using Visual Studio Code, you are all setup for debugging. 
+
+The `.vscode\launch.json` file points to the `/test/debugger/main.js` file. To change the request file that will be passed to the skill locally (`event` variable)
+and therefore to the handler method that will be called, change the `/test/debugger/main.js` file.
+
+Put request json files in the `test/requests` folder.
+
+### End-to-End (e2e) Tests
+The purpose of end-to-end testing is to test the skill at the Lambda request and response level with code going against live instances of S3, DynamoDB, and other services.
+
+[Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/) are used for this type of testing. Consult their documentation for details.
+
+Execute the tests using `npm test`
+
+All `.js` files in the `test/e2e` folder will be executed.
+
+Put request json files in the `test/requests` folder.
+
+### Unit Tests
+The purpose of unit tests is to test code independently of other code.
+
+[Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/) are used for this type of testing. Consult their documentation for details.
+
+Execute the tests using `npm test`
+
+All `.js` files in the `test/unit` folder will be executed.
