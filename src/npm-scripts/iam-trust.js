@@ -3,6 +3,7 @@ const AWS = require('aws-sdk');
 const sync = require('synchronize');
 const npmRunScript = require('npm-run-script');
 const argv = require('attrs.argv');
+const decode = require('urldecode')
 
 const stage = argv.stage;
 const configFilename = stage + '.skill.config.json';
@@ -56,16 +57,14 @@ sync.fiber(() => {
 
     if (user && role) {
         console.log('Updating assume role policy for ' + role.Role.RoleName + '...');
-        let policy = role.Role.AssumeRolePolicyDocument;
-
-        if (policy.Statement[0].Principal['AWS']) {
-            console.log('Trust policy already exists.')
-            return;
-        }
+        let policyDocument = decode(role.Role.AssumeRolePolicyDocument);
+        let policy = JSON.parse(policyDocument);
 
         policy.Statement[0].Principal['AWS'] = user.User.Arn;
 
-        params.PolicyDocument = policy;
+        assumeRoleParams.PolicyDocument = JSON.stringify(policy);
+
+         console.log('Updated policy document', assumeRoleParams.PolicyDocument);
 
         try {
             let result = sync.await(iam.updateAssumeRolePolicy(assumeRoleParams, sync.defer()));
