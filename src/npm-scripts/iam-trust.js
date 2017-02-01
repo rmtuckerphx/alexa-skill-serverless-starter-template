@@ -56,17 +56,23 @@ sync.fiber(() => {
     };
 
     if (user && role) {
-        console.log('Updating assume role policy for ' + role.Role.RoleName + '...');
+        console.log('Getting assume role policy document for ' + role.Role.RoleName + '...');
         let policyDocument = decode(role.Role.AssumeRolePolicyDocument);
         let policy = JSON.parse(policyDocument);
+
+        if (policy.Statement[0].Principal['AWS']) { 
+            console.log('Trust policy already exists.') 
+            return; 
+        } 
 
         policy.Statement[0].Principal['AWS'] = user.User.Arn;
 
         assumeRoleParams.PolicyDocument = JSON.stringify(policy);
 
-         console.log('Updated policy document', assumeRoleParams.PolicyDocument);
+         console.log('New policy document', assumeRoleParams.PolicyDocument);
 
         try {
+            console.log('Updating assume role policy for ' + role.Role.RoleName + '...');
             let result = sync.await(iam.updateAssumeRolePolicy(assumeRoleParams, sync.defer()));
             console.log(result);
         } catch (err) {

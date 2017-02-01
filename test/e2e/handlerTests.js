@@ -28,8 +28,6 @@ describe('Meetup Sample', function () {
                 succeed: function( result ) {
 
                         assert.equal(result.response.outputSpeech.ssml, '<speak> Meetup Sample can share facts and maybe do other things.  For more details, say help. So, what would you like? </speak>');
-
-                        //expect( result.valid ).to.be.true;
                         done();
                     },
 
@@ -41,12 +39,6 @@ describe('Meetup Sample', function () {
 
             var event = require('../requests/LaunchRequest.json');
             lambdaCaller.execute(event, skillConfig.skillAppID, false, context);
-
-            // myHandler.skill(event, context);
-
-            // return LambdaTester(myHandler)
-            //     .event(event)
-            //     .expectResult();
         });
 
     });
@@ -54,12 +46,7 @@ describe('Meetup Sample', function () {
 
     describe('Facts', function () {
 
-
         it('Executes GetFactByNumberIntent', function (done) {
-
-            // var event = require('../requests/GetFactByNumberIntent.json');
-            // event.session.application.applicationId = skillConfig.skillAppID;
-            // event.request.debug = true;
 
             var context = {
 
@@ -75,25 +62,9 @@ describe('Meetup Sample', function () {
                     }
             }
 
-            // myHandler.skill(event, context);
             var event = require('../requests/GetFactByNumberIntent.json');
             lambdaCaller.execute(event, skillConfig.skillAppID, false, context);
         });
 
     });
-
-    // describe('Welcome', function () {
-
-
-    //     it('Executes LaunchRequest', function () {
-
-    //         var event = require('./welcomeRequest.json');
-    //         console.log(event);
-
-    //         return LambdaTester(myHandler)
-    //             .event(event)
-    //             .expectResult();
-    //     });
-
-    // });
 });

@@ -36,6 +36,8 @@
     "cp": "^0.2.0",
     "npm-run-script": "0.0.4",
     "prompt": "^1.0.0",
-    "synchronize": "alexeypetrushin/synchronize"
+    "synchronize": "alexeypetrushin/synchronize",
+    "urldecode": "^1.0.1",
+    "mocha": "^3.2.0"
   }
 }

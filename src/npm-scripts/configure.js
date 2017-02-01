@@ -3,7 +3,7 @@
 const prompt = require('prompt');
 const argv = require('attrs.argv');
 const config = require('../config/prod.skill.config');
-const fs = require('fs');
+const helper = require('./helper');
 
 //
 // Check if configure has already been run. It can only be run once.
@@ -63,7 +63,7 @@ prompt.get(options, function (err, result) {
     //
     // Replace placeholders
     //
-    modifyFiles(['../src/config/dev.skill.config.json', 
+    helper.modifyFiles(['../src/config/dev.skill.config.json', 
     '../src/config/prod.skill.config.json', 
     '../src/translations.json', 
     '../src/serverless.yml', 
@@ -84,15 +84,3 @@ prompt.get(options, function (err, result) {
     }    
     ]);
 })
-
-function modifyFiles(files, replacements) {
-    files.forEach((file) => {
-        let fileContentModified = fs.readFileSync(file, 'utf8')
-
-        replacements.forEach((v) => {
-            fileContentModified = fileContentModified.replace(v.regexp, v.replacement)
-        })
-
-        fs.writeFileSync(file, fileContentModified, 'utf8')
-    })
-}   
