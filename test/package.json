@@ -5,8 +5,7 @@
   "main": "index.js",
   "author": "",
   "license": "MIT",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {},
   "devDependencies": {
     "aws-sdk": "^2.9.0",
