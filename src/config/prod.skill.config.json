@@ -6,5 +6,6 @@
         "bucketName": "YOUR_NAMESPACE",
         "transKey": "translations.json"
     },
-    "region": "YOUR_REGION"
+    "region": "YOUR_REGION",
+    "awsProfile": "YOUR_NAMESPACE-profile-prod"
 }
