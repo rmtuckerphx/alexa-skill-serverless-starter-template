@@ -15,6 +15,7 @@ package:
     - node_modules/prompt/**
     - node_modules/mocha/**
     - node_modules/urldecode/**
+    - node_modules/opn/**
 
 provider:
   name: aws
