@@ -363,7 +363,8 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 | deploy:prod:s3 | prod | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `deploy-s3` folder to the bucket in S3 |
 | iam:trust:dev | dev | establishes a trust relationship between the dev user and the dev Lambda role for local debugging and testing |
 | configure:rolearn:dev | dev | sets the roleArn property in `dev.skill.config.json` |
-| test | dev | runs unit and e2e tests |
+| test | dev | runs unit and e2e tests using mocha |
+| open:amz | n/a | Opens in the web browser both the Amazon developer and AWS websites |
 
 ## Debugging and Testing
 

@@ -9,9 +9,10 @@ var Util = require('./util');
 var FactsHelper = require('./factsHelper');
 
 module.exports.handler = (event, context, callback) => {
-    let useLocalResources = event.request.debug || false;
+    // used for testing and debugging only; not a real request parameter
+    let useLocalTranslations = event.request.useLocalTranslations || false;
 
-    Translations.getResources(useLocalResources)
+    Translations.getResources(useLocalTranslations)
         .then(function (data) {
 
             const alexa = Alexa.handler(event, context);

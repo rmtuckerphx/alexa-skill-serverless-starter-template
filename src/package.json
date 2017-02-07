@@ -23,7 +23,8 @@
     "predeploy:prod:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=prod",
     "test": "mocha ../test/unit/*.js --reporter spec",
     "configure:rolearn:dev": "node ./npm-scripts/configure-role-arn.js --stage=dev",
-    "iam:trust:dev": "node ./npm-scripts/iam-trust.js --stage=dev"
+    "iam:trust:dev": "node ./npm-scripts/iam-trust.js --stage=dev",
+    "open:amz": "node ./npm-scripts/open-amazon.js"   
   },
   "dependencies": {
     "alexa-sdk": "^1.0.6",
@@ -38,6 +39,7 @@
     "npm-run-script": "0.0.4",
     "prompt": "^1.0.0",
     "synchronize": "alexeypetrushin/synchronize",
-    "urldecode": "^1.0.1"
+    "urldecode": "^1.0.1",
+    "opn": "^4.0.2"
   }
 }
