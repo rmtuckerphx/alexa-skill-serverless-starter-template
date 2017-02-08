@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/test/debugger/main.js",
+            "program": "${workspaceRoot}/test/unit/listUtilityTests.js",
             "cwd": "${workspaceRoot}"
         },
         {
@@ -16,6 +16,22 @@
             "request": "attach",
             "name": "Attach to Process",
             "port": 5858
+        },
+        {
+            "name": "Run mocha - unit tests",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/node_modules/mocha/bin/_mocha",
+            "stopOnEntry": false,
+            "args": [
+                "test/unit/*.js",
+                "--no-timeouts"
+            ],
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": null,
+            "env": {
+                "NODE_ENV": "testing"
+            }
         }
     ]
 }
