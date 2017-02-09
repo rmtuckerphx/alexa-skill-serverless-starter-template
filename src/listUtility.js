@@ -1,6 +1,12 @@
 'use strict';
 const _ = require('lodash');
 
+const nextIndexTypes = {
+        Random: 'random',
+        First: 'first',
+        Last: 'last'
+    };
+
 // constructor
 function ListUtility(options) {
 
@@ -13,36 +19,60 @@ function ListUtility(options) {
     // always initialize all instance properties
     this.settings = Object.assign({}, defaults, options);
     this._visitedIndexes = this.settings.visitedIndexes.slice(0); //clone array
+
+    if (this.settings.sourceListSize === 0) {
+        throw new SyntaxError('sourceListSize must be greater than 0');
+    }
 }
 
 // class methods
-ListUtility.prototype.getFirstIndex = function() {
-
+ListUtility.prototype._getNextIndex = function(nextIndexType) {   
     const all = _.range(this.settings.sourceListSize);
     let notVisited = _.difference(all, this._visitedIndexes);
-    let isVisitedFull = false;
     let index = -1;
 
-    if (notVisited.length == 0) {
+    if (notVisited.length === 0) {
         if (this.settings.resetWhenFull) {
             this._visitedIndexes.length = 0; //clear array
             notVisited = _.difference(all, this._visitedIndexes);
         }
         else {
-            isVisitedFull = true;
+            throw new RangeError('All indexes have been visited');
         }
     }
 
-    if (!isVisitedFull) {
-        index = _.head(notVisited);
-        this._visitedIndexes.push(index);
+    switch (nextIndexType) {
+        case nextIndexTypes.First:
+            index = _.head(notVisited);
+            break;
+
+        case nextIndexTypes.Last:
+            index = _.last(notVisited);    
+            break;
+    
+        default:
+            index = _.sample(notVisited);
+            break;
     }
+
+    this._visitedIndexes.push(index);
 
     return {
         index: index, 
-        newVisitedIndexes: this._visitedIndexes,
-        isVisitedFull: isVisitedFull
+        newVisitedIndexes: this._visitedIndexes
     };
+};
+
+ListUtility.prototype.getFirstIndex = function() {
+    return this._getNextIndex(nextIndexTypes.First);
+};
+
+ListUtility.prototype.getLastIndex = function() {
+    return this._getNextIndex(nextIndexTypes.Last);
+};
+
+ListUtility.prototype.getRandomIndex = function() {
+    return this._getNextIndex(nextIndexTypes.Random);
 };
 
 module.exports = ListUtility
