@@ -10,6 +10,7 @@ var FactsHelper = require('./factsHelper');
 const MainService = require('./mainService');
 const FactService = require('./factService');
 const AttributeStore = require('./attributeStore');
+const ListUtility = require('./listUtility');
 
 module.exports.handler = (event, context, callback) => {
     // used for testing and debugging only; not a real request parameter
@@ -45,12 +46,141 @@ var mainHandlers = {
         this.emit(':ask', response.speechOutput, response.reprompt);
     },
     'GetNewFactIntent': function () {
-        var index = Util.getNextIndex(this.t('facts'), this.attributes, 'visitedFactIndexes', Util.nextIndexOptions.Random);
+
+        let facts = this.t('facts');
+        let attributeStore = new AttributeStore(this.attributes);
+        let factService = new FactService(this.t);
+        let visited = attributeStore.get('visitedFactIndexes', []);
+        attributeStore.clearRepeat();
+
+        let isNewSession = this.event.session.new;
+
+        let options = {
+            sourceListSize: facts.length,
+            visitedIndexes: visited
+        };
+
+        try {
+
+            let listUtility = new ListUtility(options);
+            let result = listUtility.getRandomIndex();
+            attributeStore.set('visitedFactIndexes', result.newVisitedIndexes);
+
+            let response = factService.getFactByIndex(result.index, isNewSession);
+
+            attributeStore.setRepeat(response.speechOutput, response.reprompt);
+
+            if (isNewSession) {
+                this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+            }
+            else {
+                this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+            }
+
+            // if (index > facts.length) {
+            //     let response = factService.getFactNotFound()
+
+            //     attributeStore.setRepeat(response.speechOutput, response.reprompt);
+
+            //     this.emit(':ask', response.speechOutput, response.reprompt);
+            // }
+
+
+        }
+        catch(err) {
+
+            this.emit('Unhandled');
+        }
+
+
+
+
+        // var index = Util.getNextIndex(this.t('facts'), this.attributes, 'visitedFactIndexes', Util.nextIndexOptions.Random);
         FactsHelper.emitFactByNumber.call(this, index + 1);
     },
     'GetFactByNumberIntent': function () {
-        var number = parseInt(this.event.request.intent.slots.number.value);
-        FactsHelper.emitFactByNumber.call(this, number);
+
+        //TODO: Finish this
+        let facts = this.t('facts');
+        let attributeStore = new AttributeStore(this.attributes);
+        let factService = new FactService(this.t);
+        let visited = attributeStore.get('visitedFactIndexes', []);
+        attributeStore.clearRepeat();
+
+        let value = parseInt(this.event.request.intent.slots.number.value);
+        let result = listUtility.getIndexFromValue(value);
+
+        if (index > facts.length) {
+            let response = factService.getFactNotFound()
+
+            attributeStore.setRepeat(response.speechOutput, response.reprompt);
+
+            if (isNewSession) {
+                this.emit(':tellWithCard', response.speechOutput);
+            }
+            else {
+                this.emit(':askWithCard', response.speechOutput, response.reprompt);
+            }
+
+        }
+        else {
+            let options = {
+                sourceListSize: facts.length,
+                visitedIndexes: visited
+            };
+
+            try {
+
+                let listUtility = new ListUtility(options);
+                let value = parseInt(this.event.request.intent.slots.number.value);
+                let result = listUtility.getIndexFromValue(value);
+                attributeStore.set('visitedFactIndexes', result.newVisitedIndexes);
+
+                let response = factService.getFactByIndex(result.index, isNewSession);
+
+                attributeStore.setRepeat(response.speechOutput, response.reprompt);
+
+                if (isNewSession) {
+                    this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+                }
+                else {
+                    this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+                }
+
+                // if (index > facts.length) {
+                //     let response = factService.getFactNotFound()
+
+                //     attributeStore.setRepeat(response.speechOutput, response.reprompt);
+
+                //     this.emit(':ask', response.speechOutput, response.reprompt);
+                // }
+
+
+            }
+            catch(err) {
+
+                this.emit('Unhandled');
+            }
+        }
+
+
+        // let attributeStore = new AttributeStore(this.attributes);
+        // let factService = new FactService(this.t);
+        // let visited = attributeStore.get('visitedFactIndexes', []);
+        // attributeStore.clearRepeat();
+
+        // let isNewSession = this.event.session.new;
+
+        // let options = {
+        //     sourceListSize: facts.length,
+        //     visitedIndexes: visited
+        // };
+
+
+
+
+        // var number = parseInt(this.event.request.intent.slots.number.value);
+        // FactsHelper.emitFactByNumber.call(this, number);
     },
     'AMAZON.RepeatIntent': function () {
         

@@ -37,7 +37,7 @@ ListUtility.prototype._getNextIndex = function(nextIndexType) {
             notVisited = _.difference(all, this._visitedIndexes);
         }
         else {
-            throw new RangeError('All indexes have been visited');
+            throw new RangeError('All indexes have been visited and resetWhenFull is set to false');
         }
     }
 
@@ -73,6 +73,18 @@ ListUtility.prototype.getLastIndex = function() {
 
 ListUtility.prototype.getRandomIndex = function() {
     return this._getNextIndex(nextIndexTypes.Random);
+};
+
+ListUtility.prototype.getIndexFromValue = function(value) {
+
+    //TODO: Fix this to take care of resetWhenFull?
+    let index = value - 1;
+    this._visitedIndexes.push(index);
+
+    return {
+        index: index, 
+        newVisitedIndexes: this._visitedIndexes
+    };
 };
 
 module.exports = ListUtility

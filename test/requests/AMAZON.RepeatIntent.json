@@ -1,0 +1,39 @@
+{
+  "session": {
+    "new": false,
+    "sessionId": "amzn1.echo-api.session.1",
+    "attributes": {
+      "speechOutput": "Here are some things you can say: Tell me fact number three. Tell me a new fact. Goodbye. Repeat. If you're done, you can also say: stop. So, how can I help?",
+      "repromptSpeech": "How can I help you?"
+    },    
+    "user": {
+      "userId": "amzn1.ask.account.testuser1"
+    },
+    "application": {
+      "applicationId": "CODE SETS THIS FROM CONFIG"
+    }
+  },
+  "version": "1.0",
+  "request": {
+    "locale": "en-US",
+    "timestamp": "2016-10-27T21:11:41Z",
+    "reason": "USER_INITIATED",
+    "type": "SessionEndedRequest",
+    "requestId": "amzn1.echo-api.request.1"
+  },
+  "context": {
+    "System": {
+      "device": {
+        "supportedInterfaces": {
+          "AudioPlayer": {}
+        }
+      },
+      "application": {
+        "applicationId": "CODE SETS THIS FROM CONFIG"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.testuser1"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 'use strict';
 //const _ = require('lodash');
+const util = require('./util');
 
 // constructor
 function FactService(translations) {
@@ -9,17 +10,45 @@ function FactService(translations) {
 }
 
 // class methods
-FactService.prototype.getFactById = function(id) {
+FactService.prototype.getFactByIndex = function(index, isNewSession) {
 
-    let response = {};
+    let list = this._t('facts');
+    let item = list[index];
+    let reprompt = ' ';
+
+    if (!isNewSession) {
+        reprompt = ' <break time=\"500ms\"/> ' + _.sample(this._t('reprompts'));
+    }
+
+    let title = this._t('getFact.title', index + 1);
+    let speechOutput = title + ': ' + item + reprompt;
+    let cardContent = util.replaceTags(item);
+
+    let response = { 
+        speechOutput: speechOutput,
+        reprompt: reprompt,
+        cardTitle: title,
+        cardContent: cardContent
+    };
 
     return response;
 };
 
 
-FactService.prototype.getFactNotFound = function(id) {
+FactService.prototype.getFactNotFound = function(index, isNewSession) {
 
-    let response = {};
+    let reprompt = ' ';
+
+    if (!isNewSession) {
+        reprompt = ' <break time=\"500ms\"/> ' + _.sample(this._t('reprompts'));
+    }
+    let speechOutput = this.t('getFact.invalidIndex', index + 1, this._t('facts').length) + ' ' + reprompt;
+
+
+    let response = { 
+        speechOutput: speechOutput,
+        reprompt: reprompt
+    };
 
     return response;
 };

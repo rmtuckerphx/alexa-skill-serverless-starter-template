@@ -38,7 +38,7 @@ AttributeStore.prototype.get = function(key, defaultValue) {
     return this._a[key];
 };
 
-AttributeStore.prototype.setKey = function(key, value) {
+AttributeStore.prototype.set = function(key, value) {
 
     this._a[key] = value;
 };

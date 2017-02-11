@@ -17,7 +17,7 @@
     "locale": "en-US",
     "timestamp": "2017-01-29T06:06:38Z",
     "intent": {
-      "name": "GetNewFactIntent",
+      "name": "FakeUnhandledIntent",
       "slots": {}
     }
   },
