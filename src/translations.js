@@ -1,11 +1,11 @@
 'use strict';
-var aws = require('aws-sdk');
-var Config = require('./config/skill.config');
+const aws = require('aws-sdk');
+const Config = require('./config/skill.config');
 
-var bucketName = Config.s3.bucketName;
-var key = Config.s3.transKey;
-var s3;
-var resources;
+const bucketName = Config.s3.bucketName;
+const key = Config.s3.transKey;
+let s3;
+let resources;
 
 module.exports = (function () {
   return {

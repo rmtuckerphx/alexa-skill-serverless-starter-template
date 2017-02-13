@@ -77,10 +77,30 @@ ListUtility.prototype.getRandomIndex = function() {
 
 ListUtility.prototype.getIndexFromValue = function(value) {
 
-    //TODO: Fix this to take care of resetWhenFull?
     let index = value - 1;
-    this._visitedIndexes.push(index);
 
+    if (index < 0 || index >= this.settings.sourceListSize) {
+        index = -1;
+    }
+    else {
+
+        const all = _.range(this.settings.sourceListSize);
+        let notVisited = _.difference(all, this._visitedIndexes);
+
+        if (notVisited.length === 0) {
+            if (this.settings.resetWhenFull) {
+                this._visitedIndexes.length = 0; //clear array
+                notVisited = _.difference(all, this._visitedIndexes);
+            }
+            else {
+                throw new RangeError('All indexes have been visited and resetWhenFull is set to false');
+            }
+        }
+
+        this._visitedIndexes.push(index);
+
+    }
+    
     return {
         index: index, 
         newVisitedIndexes: this._visitedIndexes

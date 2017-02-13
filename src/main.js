@@ -1,28 +1,32 @@
 'use strict';
-var Alexa = require('alexa-sdk');
+const Alexa = require('alexa-sdk');
 
-var _ = require('lodash');
+const _ = require('lodash');
 
-var Translations = require('./translations');
-var Config = require('./config/skill.config');
-var Util = require('./util');
-var FactsHelper = require('./factsHelper');
-const MainService = require('./mainService');
-const FactService = require('./factService');
-const AttributeStore = require('./attributeStore');
+const Translations = require('./translations');
+const Config = require('./config/skill.config');
+const FactsHelper = require('./factsHelper');
+const AttributesHelper = require('./attributesHelper');
 const ListUtility = require('./listUtility');
 
 module.exports.handler = (event, context, callback) => {
     // used for testing and debugging only; not a real request parameter
     let useLocalTranslations = event.request.useLocalTranslations || false;
 
+    // get translation resources from translations.json which could be:
+    // 1) json file deployed with lambda function
+    // 2) json file deployed to s3 bucket
+    // 3) one of the above cached in memory with this instance of the lambda function
     Translations.getResources(useLocalTranslations)
         .then(function (data) {
 
-            const alexa = Alexa.handler(event, context);
+            const alexa = Alexa.handler(event, context);            
             alexa.appId = Config.skillAppID;
+            
+            // uncomment to save user values to DynamoDB
             // alexa.dynamoDBTableName = Config.dynamoDBTableName;
-            alexa.resources = data;
+
+            alexa.resources = data; //translations
             alexa.registerHandlers(mainHandlers);
             alexa.execute();
         })
@@ -36,22 +40,17 @@ module.exports.handler = (event, context, callback) => {
 var mainHandlers = {
     'LaunchRequest': function () {
 
-        let mainService = new MainService(this.t);
-        let attributeStore = new AttributeStore(this.attributes);
+        let response = this.t('welcome', this.t('skill.name')); // example of passing a parameter to a string in translations.json
 
-        let response = mainService.getWelcome();
-
-        attributeStore.setRepeat(response.speechOutput, response.reprompt);
+        AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
 
         this.emit(':ask', response.speechOutput, response.reprompt);
     },
     'GetNewFactIntent': function () {
 
         let facts = this.t('facts');
-        let attributeStore = new AttributeStore(this.attributes);
-        let factService = new FactService(this.t);
-        let visited = attributeStore.get('visitedFactIndexes', []);
-        attributeStore.clearRepeat();
+        let visited = AttributesHelper.getVisitedFacts.call(this);
+        AttributesHelper.clearRepeat.call(this);
 
         let isNewSession = this.event.session.new;
 
@@ -64,11 +63,12 @@ var mainHandlers = {
 
             let listUtility = new ListUtility(options);
             let result = listUtility.getRandomIndex();
-            attributeStore.set('visitedFactIndexes', result.newVisitedIndexes);
 
-            let response = factService.getFactByIndex(result.index, isNewSession);
+            AttributesHelper.setVisitedFacts.call(this, result.newVisitedIndexes);
 
-            attributeStore.setRepeat(response.speechOutput, response.reprompt);
+            let response = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
+
+            AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
 
             if (isNewSession) {
                 this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
@@ -76,130 +76,83 @@ var mainHandlers = {
             else {
                 this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
             }
-
-            // if (index > facts.length) {
-            //     let response = factService.getFactNotFound()
-
-            //     attributeStore.setRepeat(response.speechOutput, response.reprompt);
-
-            //     this.emit(':ask', response.speechOutput, response.reprompt);
-            // }
-
-
         }
         catch(err) {
 
             this.emit('Unhandled');
         }
-
-
-
-
-        // var index = Util.getNextIndex(this.t('facts'), this.attributes, 'visitedFactIndexes', Util.nextIndexOptions.Random);
-        FactsHelper.emitFactByNumber.call(this, index + 1);
     },
     'GetFactByNumberIntent': function () {
 
-        //TODO: Finish this
         let facts = this.t('facts');
-        let attributeStore = new AttributeStore(this.attributes);
-        let factService = new FactService(this.t);
-        let visited = attributeStore.get('visitedFactIndexes', []);
-        attributeStore.clearRepeat();
+        let isNewSession = this.event.session.new;
+        AttributesHelper.clearRepeat.call(this);
 
         let value = parseInt(this.event.request.intent.slots.number.value);
-        let result = listUtility.getIndexFromValue(value);
+        let visited = AttributesHelper.getVisitedFacts.call(this);
 
-        if (index > facts.length) {
-            let response = factService.getFactNotFound()
-
-            attributeStore.setRepeat(response.speechOutput, response.reprompt);
-
-            if (isNewSession) {
-                this.emit(':tellWithCard', response.speechOutput);
-            }
-            else {
-                this.emit(':askWithCard', response.speechOutput, response.reprompt);
-            }
-
-        }
-        else {
-            let options = {
-                sourceListSize: facts.length,
-                visitedIndexes: visited
-            };
+        let options = {
+            sourceListSize: facts.length,
+            visitedIndexes: visited
+        };
 
             try {
+                let listUtility = new ListUtility(options);                
 
-                let listUtility = new ListUtility(options);
-                let value = parseInt(this.event.request.intent.slots.number.value);
                 let result = listUtility.getIndexFromValue(value);
-                attributeStore.set('visitedFactIndexes', result.newVisitedIndexes);
+                AttributesHelper.setVisitedFacts.call(this, result.newVisitedIndexes);
 
-                let response = factService.getFactByIndex(result.index, isNewSession);
+                if (result.index === -1) {
 
-                attributeStore.setRepeat(response.speechOutput, response.reprompt);
+                    let response = FactsHelper.getFactNotFound.call(this, result.index, isNewSession);
 
-                if (isNewSession) {
-                    this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+                    AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+
+                    if (isNewSession) {
+                        this.emit(':tell', response.speechOutput);
+                    }
+                    else {
+                        this.emit(':ask', response.speechOutput, response.reprompt);
+                    }
+
                 }
                 else {
-                    this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+
+                    let response = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
+
+                    AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+
+
+                    if (isNewSession) {
+                        this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+                    }
+                    else {
+                        this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+                    }
                 }
-
-                // if (index > facts.length) {
-                //     let response = factService.getFactNotFound()
-
-                //     attributeStore.setRepeat(response.speechOutput, response.reprompt);
-
-                //     this.emit(':ask', response.speechOutput, response.reprompt);
-                // }
-
-
             }
             catch(err) {
 
                 this.emit('Unhandled');
             }
-        }
-
-
-        // let attributeStore = new AttributeStore(this.attributes);
-        // let factService = new FactService(this.t);
-        // let visited = attributeStore.get('visitedFactIndexes', []);
-        // attributeStore.clearRepeat();
-
-        // let isNewSession = this.event.session.new;
-
-        // let options = {
-        //     sourceListSize: facts.length,
-        //     visitedIndexes: visited
-        // };
-
-
-
-
-        // var number = parseInt(this.event.request.intent.slots.number.value);
-        // FactsHelper.emitFactByNumber.call(this, number);
     },
     'AMAZON.RepeatIntent': function () {
         
-        let attributeStore = new AttributeStore(this.attributes);
-
-        let response = attributeStore.getRepeat();
+        let response = AttributesHelper.getRepeat.call(this);
 
         this.emit(':ask', response.speechOutput, response.repromptSpeech)
     },
     'AMAZON.HelpIntent': function () {
 
-        let mainService = new MainService(this.t);
-        let attributeStore = new AttributeStore(this.attributes);
+        let sampleCommands = this.t('sampleCommands');
+        let text = _.sampleSize(sampleCommands, 4).join(' ');       
+        let speechOutput = this.t('help.speechOutput', text);
+        let reprompt = this.t('help.reprompt');
+        // let response = this.t('help', text); // example of passing a parameter to a string in translations.json
 
-        let response = mainService.getHelp();
+        AttributesHelper.setRepeat.call(this, speechOutput, reprompt);
 
-        attributeStore.setRepeat(response.speechOutput, response.reprompt);
-
-        this.emit(':ask', response.speechOutput, response.reprompt);
+        this.emit(':ask', speechOutput, reprompt);
     },
     'AMAZON.CancelIntent': function () {
         this.emit('SessionEndedRequest');
@@ -209,24 +162,18 @@ var mainHandlers = {
     },
     'SessionEndedRequest': function () {
 
-        let mainService = new MainService(this.t);
-        let attributeStore = new AttributeStore(this.attributes);
+        let response = this.t('goodbye');
 
-        let response = mainService.getGoodbye();
-
-        attributeStore.clearRepeat();
+        AttributesHelper.clearRepeat.call(this);
 
         // :tell* or :saveState handler required here to save attributes to DynamoDB
         this.emit(':tell', response.speechOutput); 
     },
     'Unhandled': function () {
 
-        let mainService = new MainService(this.t);
-        let attributeStore = new AttributeStore(this.attributes);
+        let response = this.t('unhandled');
 
-        let response = mainService.getUnhandled();
-
-        attributeStore.setRepeat(response.speechOutput, response.reprompt);
+        AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
 
         this.emit(':ask', response.speechOutput, response.reprompt);
     }
