@@ -104,7 +104,7 @@ var mainHandlers = {
 
                 if (result.index === -1) {
 
-                    let response = FactsHelper.getFactNotFound.call(this, result.index, isNewSession);
+                    let response = FactsHelper.getFactNotFound.call(this, value, isNewSession);
 
                     AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
 

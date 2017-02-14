@@ -26,7 +26,7 @@ module.exports = (function () {
 
         getVisitedFacts: function () {
             if (this.attributes[visitedFactsKey] === undefined) {
-                this.attributes[visitedFactsKey] = []];
+                this.attributes[visitedFactsKey] = [];
             }
 
             return this.attributes[visitedFactsKey];
