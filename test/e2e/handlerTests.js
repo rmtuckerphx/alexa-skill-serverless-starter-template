@@ -103,7 +103,7 @@ describe('Meetup Sample', function () {
             }
 
             if (test.shouldEndSession) {
-                it('should have shouldEndSession equal to ' + test.shouldEndSession', function () {
+                it('should have shouldEndSession equal to ' + test.shouldEndSession, function () {
                     assert.equal(done.response.shouldEndSession, test.shouldEndSession);
                 });
             }
