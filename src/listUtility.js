@@ -97,8 +97,10 @@ ListUtility.prototype.getIndexFromValue = function(value) {
             }
         }
 
-        this._visitedIndexes.push(index);
-
+        if (_.includes(notVisited, index)) {
+            // index has not been visited yet, so add to visitedIndexes
+            this._visitedIndexes.push(index);
+        }        
     }
     
     return {

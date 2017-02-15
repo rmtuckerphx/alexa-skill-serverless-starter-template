@@ -8,7 +8,7 @@ module.exports = (function () {
         getRepeat: function () {
             let response = { 
                 speechOutput: this.attributes.speechOutput,
-                reprompt: this.attributes.reprompt
+                reprompt: this.attributes.repromptSpeech
             };
 
             return response;            

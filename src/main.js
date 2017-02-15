@@ -140,7 +140,7 @@ var mainHandlers = {
         
         let response = AttributesHelper.getRepeat.call(this);
 
-        this.emit(':ask', response.speechOutput, response.repromptSpeech)
+        this.emit(':ask', response.speechOutput, response.reprompt)
     },
     'AMAZON.HelpIntent': function () {
 
