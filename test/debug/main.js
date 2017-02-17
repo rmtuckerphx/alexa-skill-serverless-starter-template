@@ -5,6 +5,9 @@ var config = require('../../src/config/dev.skill.config');
 var event = require('../requests/LaunchRequest.json');
 
 event.session.application.applicationId = config.skillAppID;
+if (event.context && event.context.System && event.context.System.application) {
+    event.context.System.application.applicationId = config.skillAppID;
+}
 event.request.useLocalTranslations = false;
 
 var lambdalocal = require("lambda-local");

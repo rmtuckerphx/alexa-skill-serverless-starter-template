@@ -1,24 +1,32 @@
 'use strict';
-var Alexa = require('alexa-sdk');
+const Alexa = require('alexa-sdk');
 
-var _ = require('lodash');
+const _ = require('lodash');
 
-var Translations = require('./translations');
-var Config = require('./config/skill.config');
-var Util = require('./util');
-var FactsHelper = require('./factsHelper');
+const Translations = require('./translations');
+const Config = require('./config/skill.config');
+const FactsHelper = require('./factsHelper');
+const AttributesHelper = require('./attributesHelper');
+const ListUtility = require('./listUtility');
 
 module.exports.handler = (event, context, callback) => {
     // used for testing and debugging only; not a real request parameter
     let useLocalTranslations = event.request.useLocalTranslations || false;
 
+    // get translation resources from translations.json which could be:
+    // 1) json file deployed with lambda function
+    // 2) json file deployed to s3 bucket
+    // 3) one of the above cached in memory with this instance of the lambda function
     Translations.getResources(useLocalTranslations)
         .then(function (data) {
 
-            const alexa = Alexa.handler(event, context);
+            const alexa = Alexa.handler(event, context);            
             alexa.appId = Config.skillAppID;
+            
+            // uncomment to save user values to DynamoDB
             // alexa.dynamoDBTableName = Config.dynamoDBTableName;
-            alexa.resources = data;
+
+            alexa.resources = data; //translations
             alexa.registerHandlers(mainHandlers);
             alexa.execute();
         })
@@ -31,34 +39,118 @@ module.exports.handler = (event, context, callback) => {
 
 var mainHandlers = {
     'LaunchRequest': function () {
-        var welcome = this.t('welcome', this.t('skill.name'));
 
-        // store in attributes, so that Repeat works
-        this.attributes.speechOutput = welcome.speechOutput;
-        this.attributes.repromptSpeech = welcome.reprompt;
+        let response = this.t('welcome', this.t('skill.name')); // example of passing a parameter to a string in translations.json
 
-        this.emit(':ask', welcome.speechOutput, welcome.reprompt);
+        AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+
+        this.emit(':ask', response.speechOutput, response.reprompt);
     },
     'GetNewFactIntent': function () {
-        var index = Util.getNextIndex(this.t('facts'), this.attributes, 'visitedFactIndexes', Util.nextIndexOptions.Random);
-        FactsHelper.emitFactByNumber.call(this, index + 1);
+
+        let facts = this.t('facts');
+        let visited = AttributesHelper.getVisitedFacts.call(this);
+        AttributesHelper.clearRepeat.call(this);
+
+        let isNewSession = this.event.session.new;
+
+        let options = {
+            sourceListSize: facts.length,
+            visitedIndexes: visited
+        };
+
+        try {
+
+            let listUtility = new ListUtility(options);
+            let result = listUtility.getRandomIndex();
+
+            AttributesHelper.setVisitedFacts.call(this, result.newVisitedIndexes);
+
+            let response = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
+
+            AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+
+            if (isNewSession) {
+                this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+            }
+            else {
+                this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+            }
+        }
+        catch(err) {
+
+            this.emit('Unhandled');
+        }
     },
     'GetFactByNumberIntent': function () {
-        var number = parseInt(this.event.request.intent.slots.number.value);
-        FactsHelper.emitFactByNumber.call(this, number);
+
+        let facts = this.t('facts');
+        let isNewSession = this.event.session.new;
+        AttributesHelper.clearRepeat.call(this);
+
+        let value = parseInt(this.event.request.intent.slots.number.value);
+        let visited = AttributesHelper.getVisitedFacts.call(this);
+
+        let options = {
+            sourceListSize: facts.length,
+            visitedIndexes: visited
+        };
+
+            try {
+                let listUtility = new ListUtility(options);                
+
+                let result = listUtility.getIndexFromValue(value);
+                AttributesHelper.setVisitedFacts.call(this, result.newVisitedIndexes);
+
+                if (result.index === -1) {
+
+                    let response = FactsHelper.getFactNotFound.call(this, value, isNewSession);
+
+                    AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+
+                    if (isNewSession) {
+                        this.emit(':tell', response.speechOutput);
+                    }
+                    else {
+                        this.emit(':ask', response.speechOutput, response.reprompt);
+                    }
+
+                }
+                else {
+
+                    let response = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
+
+                    AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+
+
+                    if (isNewSession) {
+                        this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+                    }
+                    else {
+                        this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+                    }
+                }
+            }
+            catch(err) {
+
+                this.emit('Unhandled');
+            }
     },
     'AMAZON.RepeatIntent': function () {
-        this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech)
+        
+        let response = AttributesHelper.getRepeat.call(this);
+
+        this.emit(':ask', response.speechOutput, response.reprompt)
     },
     'AMAZON.HelpIntent': function () {
-        var sampleCommands = this.t('sampleCommands');
-        var text = _.sampleSize(sampleCommands, 4).join(' ');       
-        var speechOutput = this.t('help.speechOutput', text);
 
-        var reprompt = this.t('help.reprompt');
+        let sampleCommands = this.t('sampleCommands');
+        let text = _.sampleSize(sampleCommands, 4).join(' ');       
+        let speechOutput = this.t('help.speechOutput', text);
+        let reprompt = this.t('help.reprompt');
+        // let response = this.t('help', text); // example of passing a parameter to a string in translations.json
 
-        this.attributes.speechOutput = speechOutput;
-        this.attributes.repromptSpeech = reprompt;
+        AttributesHelper.setRepeat.call(this, speechOutput, reprompt);
 
         this.emit(':ask', speechOutput, reprompt);
     },
@@ -69,20 +161,20 @@ var mainHandlers = {
         this.emit('SessionEndedRequest');
     },
     'SessionEndedRequest': function () {
-        var goodbye = this.t('goodbye');
 
-        this.attributes.speechOutput = ' ';
-        this.attributes.repromptSpeech = ' ';
+        let response = this.t('goodbye');
+
+        AttributesHelper.clearRepeat.call(this);
 
         // :tell* or :saveState handler required here to save attributes to DynamoDB
-        this.emit(':tell', goodbye.speechOutput); 
+        this.emit(':tell', response.speechOutput); 
     },
     'Unhandled': function () {
-        var unhandled = this.t('unhandled');
 
-        this.attributes.speechOutput = unhandled.speechOutput;
-        this.attributes.repromptSpeech = unhandled.reprompt;
+        let response = this.t('unhandled');
 
-        this.emit(':ask', unhandled.speechOutput, unhandled.reprompt);
+        AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+
+        this.emit(':ask', response.speechOutput, response.reprompt);
     }
 };

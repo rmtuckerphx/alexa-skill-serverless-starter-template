@@ -4,20 +4,19 @@
     "application": {
       "applicationId": "CODE SETS THIS FROM CONFIG"
     },
-    "attributes": {
-    },
+    "attributes": {},
     "user": {
       "userId": "amzn1.ask.account.testuser1"
     },
-    "new": false
+    "new": true
   },
   "request": {
     "type": "IntentRequest",
     "requestId": "amzn1.echo-api.request.1",
     "locale": "en-US",
-    "timestamp": "2017-01-29T06:06:38Z",
+    "timestamp": "2017-02-11T03:25:13Z",
     "intent": {
-      "name": "GetNewFactIntent",
+      "name": "AMAZON.HelpIntent",
       "slots": {}
     }
   },

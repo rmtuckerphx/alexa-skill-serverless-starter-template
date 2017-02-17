@@ -80,6 +80,12 @@ Only 7 steps and no more than 7 minutes:
 
 5. Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html)
 
+    Open Amazon Developer website and AWS website by:
+
+    ```bash
+    $ npm run open:amz
+    ``` 
+
 6. Copy Alexa Skill ID to config files
 
 7. Deploy skill to AWS Lambda & S3
@@ -363,8 +369,10 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 | deploy:prod:s3 | prod | runs all scripts needed to create the S3 bucket, set CORS configuration, and copy files and folders from the `deploy-s3` folder to the bucket in S3 |
 | iam:trust:dev | dev | establishes a trust relationship between the dev user and the dev Lambda role for local debugging and testing |
 | configure:rolearn:dev | dev | sets the roleArn property in `dev.skill.config.json` |
-| test | dev | runs unit and e2e tests using mocha |
 | open:amz | n/a | Opens in the web browser both the Amazon developer and AWS websites |
+| test | dev | runs unit and e2e tests using Mocha |
+| test:unit | dev | runs unit tests using Mocha |
+| test:e2e | dev | runs e2e tests using Mocha |
 
 ## Debugging and Testing
 
@@ -377,27 +385,33 @@ These requests can be used for both debugging and end-to-end testing.
 ### Debug Locally
 If using Visual Studio Code, you are all setup for debugging. 
 
-The `.vscode\launch.json` file points to the `/test/debugger/main.js` file. To change the request file that will be passed to the skill locally (`event` variable)
-and therefore to the handler method that will be called, change the `/test/debugger/main.js` file.
+The `.vscode\launch.json` file points to the `/test/debug/main.js` file. To change the request file that will be passed to the skill locally (`event` variable)
+and therefore to the handler method that will be called, change the `/test/debug/main.js` file.
 
 Put request json files in the `test/requests` folder.
+
+From the DEBUG dropdown in Visual Studio Code, select `Launch Program`
 
 ### End-to-End (e2e) Tests
 The purpose of end-to-end testing is to test the skill at the Lambda request and response level with code going against live instances of S3, DynamoDB, and other services.
 
 [Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/) are used for this type of testing. Consult their documentation for details.
 
-Execute the tests using `npm test`
+Execute the tests using `npm run test:e2e`
 
 All `.js` files in the `test/e2e` folder will be executed.
 
 Put request json files in the `test/requests` folder.
+
+To debug e2e tests, from the DEBUG dropdown in Visual Studio Code, select `Run Mocha - e2e tests`
 
 ### Unit Tests
 The purpose of unit tests is to test code independently of other code.
 
 [Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/) are used for this type of testing. Consult their documentation for details.
 
-Execute the tests using `npm test`
+Execute the tests using `npm run test:unit`
 
 All `.js` files in the `test/unit` folder will be executed.
+
+To debug unit tests, from the DEBUG dropdown in Visual Studio Code, select `Run Mocha - unit tests`

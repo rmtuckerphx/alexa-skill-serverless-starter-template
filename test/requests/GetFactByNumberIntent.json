@@ -1,18 +1,18 @@
 {
   "session": {
-    "sessionId": "SessionId.80a1522a-41ae-447b-b098-d4c72773cd79",
+    "sessionId": "amzn1.echo-api.session.1",
     "application": {
-      "applicationId": ""
+      "applicationId": "CODE SETS THIS FROM CONFIG"
     },
     "attributes": {},
     "user": {
-      "userId": "testuser1"
+      "userId": "amzn1.ask.account.testuser1"
     },
     "new": false
   },
   "request": {
     "type": "IntentRequest",
-    "requestId": "EdwRequestId.52150ad6-a791-42f0-a3c2-93a2eade8998",
+    "requestId": "amzn1.echo-api.request.1",
     "locale": "en-US",
     "timestamp": "2017-01-29T07:59:40Z",
     "intent": {

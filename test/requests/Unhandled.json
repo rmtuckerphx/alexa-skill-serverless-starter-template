@@ -4,22 +4,18 @@
     "application": {
       "applicationId": "CODE SETS THIS FROM CONFIG"
     },
-    "attributes": {
-    },
+    "attributes": {},
     "user": {
       "userId": "amzn1.ask.account.testuser1"
     },
-    "new": false
+    "new": true
   },
   "request": {
-    "type": "IntentRequest",
-    "requestId": "amzn1.echo-api.request.1",
+    "type": "Unhandled",
+    "requestId": "EdwRequestId.4835dfcb-a608-4d3c-bf21-08c02a7ee1b8",
     "locale": "en-US",
-    "timestamp": "2017-01-29T06:06:38Z",
-    "intent": {
-      "name": "GetNewFactIntent",
-      "slots": {}
-    }
+    "timestamp": "2016-10-06T14:25:30Z",
+    "debug": true
   },
   "version": "1.0"
 }

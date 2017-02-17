@@ -1,0 +1,21 @@
+{
+  "session": {
+    "new": false,
+    "sessionId": "amzn1.echo-api.session.1",
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.testuser1"
+    },
+    "application": {
+      "applicationId": "CODE SETS THIS FROM CONFIG"
+    }
+  },
+  "version": "1.0",
+  "request": {
+    "locale": "en-US",
+    "timestamp": "2016-10-27T21:11:41Z",
+    "reason": "USER_INITIATED",
+    "type": "SessionEndedRequest",
+    "requestId": "amzn1.echo-api.request.1"
+  }
+}
