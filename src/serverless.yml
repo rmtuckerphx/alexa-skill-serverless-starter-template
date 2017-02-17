@@ -1,4 +1,4 @@
-service: YOUR_NAMESPACE-service
+service: ${self:custom.skillNamespace}-service
 
 frameworkVersion: ">=1.4.0 <2.0.0"
 
@@ -26,13 +26,43 @@ provider:
   memorySize: 128
 
 custom:
+  skillNamespace: YOUR_NAMESPACE
   defaultStage: dev
   profiles:
-    dev: YOUR_NAMESPACE-profile-dev
-    prod: YOUR_NAMESPACE-profile-prod
+    dev: ${self:custom.skillNamespace}-profile-dev
+    prod: ${self:custom.skillNamespace}-profile-prod
 
 functions:
   skill:
     handler: main.handler
+    role:
+      'Fn::GetAtt': [ lambdaRole, Arn ]
     events:
       - alexaSkill 
+
+resources:
+  Resources:
+    lambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:service}-${self:provider.stage}-${self:provider.region}-lambdaRole
+        Path: "/"
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${self:service}-${self:provider.stage}-lambdaPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: 'Allow'
+                  Action:
+                    - 'logs:CreateLogGroup'
+                    - 'logs:CreateLogStream'
+                    - 'logs:PutLogEvents'
+                  Resource: arn:aws:logs:${self:provider.region}:*:*

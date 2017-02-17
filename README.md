@@ -42,8 +42,10 @@ The following are used in this template:
 6. Install Serverless Framework
 
     ```bash
-    $ npm install -g serverless 
+    $ npm install -g serverless@v1.6.1 
     ```
+    Note: Serverless 1.7.0 has an issue [EMFILE - too many open files](https://github.com/serverless/serverless/issues/3249) so use 1.6.1 until it is fixed.
+
 7. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 8. Install a code editor. The detailed steps will show you how to use [Visual Studio Code](https://code.visualstudio.com/) to debug your Node.js code locally.
 
