@@ -80,6 +80,12 @@ Only 7 steps and no more than 7 minutes:
 
 5. Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html)
 
+    Open Amazon Developer website and AWS website by:
+
+    ```bash
+    $ npm run open:amz
+    ``` 
+
 6. Copy Alexa Skill ID to config files
 
 7. Deploy skill to AWS Lambda & S3
