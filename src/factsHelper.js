@@ -1,6 +1,7 @@
 'use strict';
 const _ = require('lodash');
 const util = require('./util');
+const Config = require('./config/skill.config');
 
 module.exports = (function () {
     return {
@@ -18,12 +19,14 @@ module.exports = (function () {
             let title = this.t('getFact.title', index + 1);
             let speechOutput = title + ': ' + item + reprompt;
             let cardContent = util.replaceTags(item);
+            let cardImages = this.t('getFact.cardImages', Config.s3.bucketName);
 
             let response = { 
                 speechOutput: speechOutput,
                 reprompt: reprompt,
                 cardTitle: title,
-                cardContent: cardContent
+                cardContent: cardContent,
+                cardImages: cardImages
             };
 
             return response;            

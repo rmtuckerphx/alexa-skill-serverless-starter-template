@@ -80,13 +80,13 @@ var mainHandlers = {
             if (isNewSession) {
 
                 //VI-REMOVE:VoiceInsights.track(intent.name, null, ssmlResponse.speechOutput, (error, response) => {
-                    this.emit(':tellWithCard', ssmlResponse.speechOutput, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                    this.emit(':tellWithCard', ssmlResponse.speechOutput, ssmlResponse.cardTitle, ssmlResponse.cardContent, ssmlResponse.cardImages);
                 //VI-REMOVE:});
             }
             else {
 
                 //VI-REMOVE:VoiceInsights.track(intent.name, null, ssmlResponse.speechOutput, (error, response) => {
-                    this.emit(':askWithCard', ssmlResponse.speechOutput, ssmlResponse.reprompt, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                    this.emit(':askWithCard', ssmlResponse.speechOutput, ssmlResponse.reprompt, ssmlResponse.cardTitle, ssmlResponse.cardContent, ssmlResponse.cardImages);
                 //VI-REMOVE:});
             }
         }
@@ -147,13 +147,13 @@ var mainHandlers = {
                     if (isNewSession) {
     
                         //VI-REMOVE:VoiceInsights.track(intent.name, intent.slots, ssmlResponse.speechOutput, (error, response) => {
-                            this.emit(':tellWithCard', ssmlResponse.speechOutput, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                            this.emit(':tellWithCard', ssmlResponse.speechOutput, ssmlResponse.cardTitle, ssmlResponse.cardContent, ssmlResponse.cardImages);
                         //VI-REMOVE:});
                     }
                     else {
 
                         //VI-REMOVE:VoiceInsights.track(intent.name, intent.slots, ssmlResponse.speechOutput, (error, response) => {
-                            this.emit(':askWithCard', ssmlResponse.speechOutput, ssmlResponse.reprompt, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                            this.emit(':askWithCard', ssmlResponse.speechOutput, ssmlResponse.reprompt, ssmlResponse.cardTitle, ssmlResponse.cardContent, ssmlResponse.cardImages);
                         //VI-REMOVE:});
                     }
                 }
@@ -209,7 +209,7 @@ var mainHandlers = {
 
     'SessionEndedRequest': function () {
 
-        let ssmlResponse = this.t('goodbye');
+        let ssmlResponse = this.t('goodbye', Config.s3.bucketName);
 
         AttributesHelper.clearRepeat.call(this);
 

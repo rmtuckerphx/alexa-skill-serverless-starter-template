@@ -33,7 +33,7 @@
         "reprompt": "If you are not sure what to ask, say help. To end, you can say: stop."
       },
       "goodbye": {
-        "speechOutput": "Goodbye and Thank you!"
+        "speechOutput": "Goodbye and Thank you! <audio src='https://s3.amazonaws.com/%s/audio/beam.mp3' />"
       },
       "facts": [
         "Cows go moo",
@@ -43,7 +43,11 @@
       ],
       "getFact": {
         "title": "Fact %d",
-        "invalidIndex": "I cannot find fact %d. Currently, I have %d facts that I can share. Please ask for a different fact number, a new fact, or give me a different instruction."
+        "invalidIndex": "I cannot find fact %d. Currently, I have %d facts that I can share. Please ask for a different fact number, a new fact, or give me a different instruction.",
+        "cardImages": {
+            "smallImageUrl": "https://s3.amazonaws.com/%s/images/image_small.jpg",
+            "largeImageUrl": "https://s3.amazonaws.com/%s/images/image_large.jpg"
+        }        
       }
     }
   }
