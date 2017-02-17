@@ -1,7 +1,7 @@
 'use strict';
 const Alexa = require('alexa-sdk');
 const _ = require('lodash');
-//VI-REMOVE:const VoiceInsights = require('voice-insights-sdk'),
+//VI-REMOVE:const VoiceInsights = require('voice-insights-sdk');
 
 const Translations = require('./translations');
 const Config = require('./config/skill.config');
@@ -43,12 +43,11 @@ var mainHandlers = {
 
     'LaunchRequest': function () {
 
-        //VI-REMOVE:let intent = this.event.request.intent;
         let ssmlResponse = this.t('welcome', this.t('skill.name')); // example of passing a parameter to a string in translations.json
 
         AttributesHelper.setRepeat.call(this, ssmlResponse.speechOutput, ssmlResponse.reprompt);
 
-        //VI-REMOVE:VoiceInsights.track(intent.name, null, ssmlResponse.speechOutput, (error, response) => {
+        //VI-REMOVE:VoiceInsights.track('LaunchRequest', null, ssmlResponse.speechOutput, (error, response) => {
             this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
         //VI-REMOVE:});
     },
@@ -214,7 +213,7 @@ var mainHandlers = {
 
         AttributesHelper.clearRepeat.call(this);
 
-        //VI-REMOVE:VoiceInsights.track("SessionEnd", null, null, (error, response) => {
+        //VI-REMOVE:VoiceInsights.track('SessionEnd', null, null, (error, response) => {
             this.emit(':tell', ssmlResponse.speechOutput); // :tell* or :saveState handler required here to save attributes to DynamoDB
         //VI-REMOVE:});
     },
@@ -225,7 +224,7 @@ var mainHandlers = {
 
         AttributesHelper.setRepeat.call(this, ssmlResponse.speechOutput, ssmlResponse.reprompt);
 
-        //VI-REMOVE:VoiceInsights.track("Unhandled", null, ssmlResponse.speechOutput, (error, response) => {
+        //VI-REMOVE:VoiceInsights.track('Unhandled', null, ssmlResponse.speechOutput, (error, response) => {
             this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
         //VI-REMOVE:});
     }
