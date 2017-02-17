@@ -8,17 +8,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/test/debugger/main.js",
+            "program": "${workspaceRoot}/test/debug/main.js",
             "cwd": "${workspaceRoot}"
         },
         {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach to Process",
-            "port": 5858
-        },
-        {
-            "name": "Run mocha - unit tests",
+            "name": "Run Mocha - unit tests",
             "type": "node",
             "request": "launch",
             "program": "${workspaceRoot}/src/node_modules/mocha/bin/_mocha",
@@ -34,7 +28,7 @@
             }
         },
         {
-            "name": "Run mocha - e2e tests",
+            "name": "Run Mocha - e2e tests",
             "type": "node",
             "request": "launch",
             "program": "${workspaceRoot}/src/node_modules/mocha/bin/_mocha",
