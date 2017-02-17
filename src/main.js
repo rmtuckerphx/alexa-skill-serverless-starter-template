@@ -1,7 +1,7 @@
 'use strict';
 const Alexa = require('alexa-sdk');
-
 const _ = require('lodash');
+//VI-REMOVE:const VoiceInsights = require('voice-insights-sdk'),
 
 const Translations = require('./translations');
 const Config = require('./config/skill.config');
@@ -22,6 +22,8 @@ module.exports.handler = (event, context, callback) => {
 
             const alexa = Alexa.handler(event, context);            
             alexa.appId = Config.skillAppID;
+
+            //VI-REMOVE:VoiceInsights.initialize(event.session, Config.trackingToken);
             
             // uncomment to save user values to DynamoDB
             // alexa.dynamoDBTableName = Config.dynamoDBTableName;
@@ -38,16 +40,22 @@ module.exports.handler = (event, context, callback) => {
 };
 
 var mainHandlers = {
+
     'LaunchRequest': function () {
 
-        let response = this.t('welcome', this.t('skill.name')); // example of passing a parameter to a string in translations.json
+        //VI-REMOVE:let intent = this.event.request.intent;
+        let ssmlResponse = this.t('welcome', this.t('skill.name')); // example of passing a parameter to a string in translations.json
 
-        AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+        AttributesHelper.setRepeat.call(this, ssmlResponse.speechOutput, ssmlResponse.reprompt);
 
-        this.emit(':ask', response.speechOutput, response.reprompt);
+        //VI-REMOVE:VoiceInsights.track(intent.name, null, ssmlResponse.speechOutput, (error, response) => {
+            this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
+        //VI-REMOVE:});
     },
+
     'GetNewFactIntent': function () {
 
+        //VI-REMOVE:let intent = this.event.request.intent;
         let facts = this.t('facts');
         let visited = AttributesHelper.getVisitedFacts.call(this);
         AttributesHelper.clearRepeat.call(this);
@@ -66,15 +74,21 @@ var mainHandlers = {
 
             AttributesHelper.setVisitedFacts.call(this, result.newVisitedIndexes);
 
-            let response = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
+            let ssmlResponse = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
 
-            AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+            AttributesHelper.setRepeat.call(this, ssmlResponse.speechOutput, ssmlResponse.reprompt);
 
             if (isNewSession) {
-                this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+
+                //VI-REMOVE:VoiceInsights.track(intent.name, null, ssmlResponse.speechOutput, (error, response) => {
+                    this.emit(':tellWithCard', ssmlResponse.speechOutput, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                //VI-REMOVE:});
             }
             else {
-                this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+
+                //VI-REMOVE:VoiceInsights.track(intent.name, null, ssmlResponse.speechOutput, (error, response) => {
+                    this.emit(':askWithCard', ssmlResponse.speechOutput, ssmlResponse.reprompt, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                //VI-REMOVE:});
             }
         }
         catch(err) {
@@ -82,8 +96,10 @@ var mainHandlers = {
             this.emit('Unhandled');
         }
     },
+
     'GetFactByNumberIntent': function () {
 
+        //VI-REMOVE:let intent = this.event.request.intent;
         let facts = this.t('facts');
         let isNewSession = this.event.session.new;
         AttributesHelper.clearRepeat.call(this);
@@ -104,30 +120,42 @@ var mainHandlers = {
 
                 if (result.index === -1) {
 
-                    let response = FactsHelper.getFactNotFound.call(this, value, isNewSession);
+                    let ssmlResponse = FactsHelper.getFactNotFound.call(this, value, isNewSession);
 
-                    AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+                    AttributesHelper.setRepeat.call(this, ssmlResponse.speechOutput, ssmlResponse.reprompt);
 
                     if (isNewSession) {
-                        this.emit(':tell', response.speechOutput);
+
+                        //VI-REMOVE:VoiceInsights.track(intent.name, intent.slots, ssmlResponse.speechOutput, (error, response) => {
+                            this.emit(':tell', ssmlResponse.speechOutput);
+                        //VI-REMOVE:});
                     }
                     else {
-                        this.emit(':ask', response.speechOutput, response.reprompt);
+
+                        //VI-REMOVE:VoiceInsights.track(intent.name, intent.slots, ssmlResponse.speechOutput, (error, response) => {
+                            this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
+                        //VI-REMOVE:});
                     }
 
                 }
                 else {
 
-                    let response = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
+                    let ssmlResponse = FactsHelper.getFactByIndex.call(this, result.index, isNewSession);
 
-                    AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+                    AttributesHelper.setRepeat.call(this, ssmlResponse.speechOutput, ssmlResponse.reprompt);
 
 
                     if (isNewSession) {
-                        this.emit(':tellWithCard', response.speechOutput, response.cardTitle, response.cardContent);
+    
+                        //VI-REMOVE:VoiceInsights.track(intent.name, intent.slots, ssmlResponse.speechOutput, (error, response) => {
+                            this.emit(':tellWithCard', ssmlResponse.speechOutput, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                        //VI-REMOVE:});
                     }
                     else {
-                        this.emit(':askWithCard', response.speechOutput, response.reprompt, response.cardTitle, response.cardContent);
+
+                        //VI-REMOVE:VoiceInsights.track(intent.name, intent.slots, ssmlResponse.speechOutput, (error, response) => {
+                            this.emit(':askWithCard', ssmlResponse.speechOutput, ssmlResponse.reprompt, ssmlResponse.cardTitle, ssmlResponse.cardContent);
+                        //VI-REMOVE:});
                     }
                 }
             }
@@ -136,45 +164,69 @@ var mainHandlers = {
                 this.emit('Unhandled');
             }
     },
+
     'AMAZON.RepeatIntent': function () {
         
-        let response = AttributesHelper.getRepeat.call(this);
+        //VI-REMOVE:let intent = this.event.request.intent;
+        let ssmlResponse = AttributesHelper.getRepeat.call(this);
 
-        this.emit(':ask', response.speechOutput, response.reprompt)
+        //VI-REMOVE:VoiceInsights.track(intent.name, null, ssmlResponse.speechOutput, (error, response) => {
+            this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt)
+        //VI-REMOVE:});
     },
+
     'AMAZON.HelpIntent': function () {
 
+        //VI-REMOVE:let intent = this.event.request.intent;
         let sampleCommands = this.t('sampleCommands');
         let text = _.sampleSize(sampleCommands, 4).join(' ');       
         let speechOutput = this.t('help.speechOutput', text);
         let reprompt = this.t('help.reprompt');
-        // let response = this.t('help', text); // example of passing a parameter to a string in translations.json
 
         AttributesHelper.setRepeat.call(this, speechOutput, reprompt);
 
-        this.emit(':ask', speechOutput, reprompt);
+        //VI-REMOVE:VoiceInsights.track(intent.name, null, speechOutput, (error, response) => {
+            this.emit(':ask', speechOutput, reprompt);
+        //VI-REMOVE:});
     },
+
     'AMAZON.CancelIntent': function () {
-        this.emit('SessionEndedRequest');
+
+        //VI-REMOVE:let intent = this.event.request.intent;
+
+        //VI-REMOVE:VoiceInsights.track(intent.name, null, null, (error, response) => {
+            this.emit('SessionEndedRequest');
+        //VI-REMOVE:});
     },
+
     'AMAZON.StopIntent': function () {
-        this.emit('SessionEndedRequest');
+
+        //VI-REMOVE:let intent = this.event.request.intent;
+
+        //VI-REMOVE:VoiceInsights.track(intent.name, null, null, (error, response) => {
+            this.emit('SessionEndedRequest');
+        //VI-REMOVE:});
     },
+
     'SessionEndedRequest': function () {
 
-        let response = this.t('goodbye');
+        let ssmlResponse = this.t('goodbye');
 
         AttributesHelper.clearRepeat.call(this);
 
-        // :tell* or :saveState handler required here to save attributes to DynamoDB
-        this.emit(':tell', response.speechOutput); 
+        //VI-REMOVE:VoiceInsights.track("SessionEnd", null, null, (error, response) => {
+            this.emit(':tell', ssmlResponse.speechOutput); // :tell* or :saveState handler required here to save attributes to DynamoDB
+        //VI-REMOVE:});
     },
+
     'Unhandled': function () {
 
-        let response = this.t('unhandled');
+        let ssmlResponse = this.t('unhandled');
 
-        AttributesHelper.setRepeat.call(this, response.speechOutput, response.reprompt);
+        AttributesHelper.setRepeat.call(this, ssmlResponse.speechOutput, ssmlResponse.reprompt);
 
-        this.emit(':ask', response.speechOutput, response.reprompt);
+        //VI-REMOVE:VoiceInsights.track("Unhandled", null, ssmlResponse.speechOutput, (error, response) => {
+            this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
+        //VI-REMOVE:});
     }
 };

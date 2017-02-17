@@ -8,5 +8,6 @@
     },
     "region": "YOUR_REGION",
     "roleArn": "YOUR_ROLE_ARN",
-    "awsProfile": "YOUR_NAMESPACE-profile-dev"
+    "awsProfile": "YOUR_NAMESPACE-profile-dev",
+    "trackingToken": "REPLACE WITH ANALYTICS TRACKING TOKEN"
 }

@@ -7,5 +7,6 @@
         "transKey": "translations.json"
     },
     "region": "YOUR_REGION",
-    "awsProfile": "YOUR_NAMESPACE-profile-prod"
+    "awsProfile": "YOUR_NAMESPACE-profile-prod",
+    "trackingToken": "REPLACE WITH ANALYTICS TRACKING TOKEN"
 }

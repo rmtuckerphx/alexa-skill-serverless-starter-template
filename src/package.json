@@ -31,8 +31,7 @@
   "dependencies": {
     "alexa-sdk": "^1.0.6",
     "aws-sdk": "^2.7.19",
-    "lodash": "^4.16.4",
-    "synchronize": "alexeypetrushin/synchronize"
+    "lodash": "^4.16.4"
   },
   "devDependencies": {
     "attrs.argv": "^0.2.0-a",
