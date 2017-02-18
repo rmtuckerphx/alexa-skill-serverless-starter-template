@@ -25,6 +25,13 @@ The following are used in this template:
     - DynamoDB (optional)
 - VoiceInsights (optional)
 
+You can create an Alexa skill even if you don't have an Alexa device. 
+
+Use:
+- [Echosim.io](https://echosim.io/)
+
+
+
 ## First-Time-Only Setup
 1. Install [Node.js](https://nodejs.org/en/)
     - If you are only using Node.js for Lambda development, consider installing the [version of Node.js](https://nodejs.org/en/download/releases/) that matches the [supported Lambda version](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html)
@@ -191,7 +198,7 @@ Executing this command, will add profiles to your local `.aws/credentials` file.
 
 To list the contents of the .aws folder, execute the command:
 
-**Linux, OS X, or Unit**
+**Linux, OS X, or Unix**
 ```bash
 $ ls  ~/.aws
 ```
