@@ -160,9 +160,13 @@ describe('Meetup Sample', function () {
         it('should return card equal to object', function () {
             expect(done.response.card).to.deep.equal( 
                 {   
-                    type: 'Simple',
+                    type: 'Standard',
                     title: 'Fact 4',
-                    content: 'Alexa is my friend' 
+                    text: 'Alexa is my friend',
+                    image: {
+                        largeImageUrl: "https://s3.amazonaws.com/" + config.s3.bucketName + "/images/image_large.jpg",
+                        smallImageUrl: "https://s3.amazonaws.com/" + config.s3.bucketName + "/images/image_small.jpg",
+                    } 
                 });
         });
 
@@ -235,9 +239,13 @@ describe('Meetup Sample', function () {
         it('should return card equal to object', function () {
             expect(done.response.card).to.deep.equal( 
                 {   
-                    type: 'Simple',
+                    type: 'Standard',
                     title: 'Fact 4',
-                    content: 'Alexa is my friend' 
+                    text: 'Alexa is my friend',
+                    image: {
+                        largeImageUrl: "https://s3.amazonaws.com/" + config.s3.bucketName + "/images/image_large.jpg",
+                        smallImageUrl: "https://s3.amazonaws.com/" + config.s3.bucketName + "/images/image_small.jpg",
+                    } 
                 });
         });
 
@@ -307,17 +315,17 @@ describe('Meetup Sample', function () {
             expect(done.sessionAttributes.repromptSpeech).to.have.string(' ');
         });
 
-        it('should have card type Simple', function () {
-            expect(done.response.card.type).to.have.string('Simple');
+        it('should have card type Standard', function () {
+            expect(done.response.card.type).to.have.string('Standard');
         });
 
         it('should have card title starts with Fact', function () {
             expect(done.response.card.title).to.have.string('Fact ');
         });
 
-        it('should have card content', function () {
-            expect(done.response.card.content).to.exist;
-            expect(done.response.card.content).to.be.a('string');
+        it('should have card text', function () {
+            expect(done.response.card.text).to.exist;
+            expect(done.response.card.text).to.be.a('string');
         });
 
         it('should return visitedFactIndexes with one item', function () {
@@ -386,17 +394,17 @@ describe('Meetup Sample', function () {
             expect(done.sessionAttributes.repromptSpeech).to.have.string(' ');
         });
 
-        it('should have card type Simple', function () {
-            expect(done.response.card.type).to.have.string('Simple');
+        it('should have card type Standard', function () {
+            expect(done.response.card.type).to.have.string('Standard');
         });
 
         it('should have card title starts with Fact', function () {
             expect(done.response.card.title).to.have.string('Fact ');
         });
 
-        it('should have card content', function () {
-            expect(done.response.card.content).to.exist;
-            expect(done.response.card.content).to.be.a('string');
+        it('should have card text', function () {
+            expect(done.response.card.text).to.exist;
+            expect(done.response.card.text).to.be.a('string');
         });
 
         // not sure why this test is not run in isolation of the others
@@ -507,7 +515,7 @@ describe('Meetup Sample', function () {
         })           
 
         it('should return outputSpeech matching string', function () {
-            expect(done.response.outputSpeech.ssml).to.have.string('<speak> Goodbye and Thank you! </speak>');
+            expect(done.response.outputSpeech.ssml).to.equal("<speak> Goodbye and Thank you! <audio src='https://s3.amazonaws.com/" + config.s3.bucketName + "/audio/beam.mp3' /> </speak>");
         });
 
         it('should not return reprompt outputSpeech', function () {
@@ -568,7 +576,7 @@ describe('Meetup Sample', function () {
         })           
 
         it('should return outputSpeech matching string', function () {
-            expect(done.response.outputSpeech.ssml).to.have.string('<speak> Goodbye and Thank you! </speak>');
+            expect(done.response.outputSpeech.ssml).to.equal("<speak> Goodbye and Thank you! <audio src='https://s3.amazonaws.com/" + config.s3.bucketName + "/audio/beam.mp3' /> </speak>");
         });
 
         it('should not return reprompt outputSpeech', function () {
@@ -629,7 +637,7 @@ describe('Meetup Sample', function () {
         })           
 
         it('should return outputSpeech matching string', function () {
-            expect(done.response.outputSpeech.ssml).to.have.string('<speak> Goodbye and Thank you! </speak>');
+            expect(done.response.outputSpeech.ssml).to.equal("<speak> Goodbye and Thank you! <audio src='https://s3.amazonaws.com/" + config.s3.bucketName + "/audio/beam.mp3' /> </speak>");
         });
 
         it('should not return reprompt outputSpeech', function () {
