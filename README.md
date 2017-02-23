@@ -34,7 +34,7 @@ Use:
 
 ## First-Time-Only Setup
 1. Install [Node.js](https://nodejs.org/en/)
-    - If you are only using Node.js for Lambda development, consider installing the [version of Node.js](https://nodejs.org/en/download/releases/) that matches the [supported Lambda version](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html)
+    - If you are only using Node.js for Lambda development, consider installing the [version of Node.js](https://nodejs.org/en/download/releases/) that matches the [supported Lambda version](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html) which is v4.3.2
     - Installing Node.js will also install Node Package Manager (npm)
 2. Create an [Amazon Web Service account](https://aws.amazon.com/)
 3. Create a user instead of the AWS account root user: [Creating Your First IAM Admin User and Group](http://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html) (save the .csv file locally)
@@ -64,7 +64,7 @@ Only 7 steps and no more than 7 minutes:
 1. Clone project repository. You need to run `npm install` in both the `src` and `test` folders. AFTER THAT all commands are run from `src`.
 
     ```bash
-    $ git clone https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
+    $ git clone --depth=1 https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
     $ cd myskill/test
     $ npm install
     $ cd ../src
@@ -117,28 +117,33 @@ Follow the AWS documentation at: [Installing the AWS Command Line Interface](htt
 ### Install Serverless Framework
 **Install via npm:**
   ```bash
-  $ npm install -g serverless
+  $ npm install -g serverless@v1.6.1 
   ```
 
 ### Create a new project based on the Alexa Skill Serverless Starter Template
-Clone this repo into a new project folder (ex: myskill).
 
-```bash
-$ git clone https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
-$ cd myskill
-```
-
-If you just want to start a new project without any commit history then use:
+If you just want to start a new project without any commit history then use (recommended):
 
 ```bash
 $ git clone --depth=1 https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
 $ cd myskill
 ```
 
-### Get node dependencies
-Navigate to the `src` folder of your skill:
+Or you can clone this repo into a new project folder (ex: myskill).
+
 ```bash
-$ cd src
+$ git clone https://github.com/rmtuckerphx/alexa-skill-serverless-starter-template.git myskill
+$ cd myskill
+```
+
+
+
+### Get node dependencies
+Navigate first to the 'test' and then to the `src` folder of your skill and install packages:
+```bash
+$ cd test
+$ npm install
+$ cd ../src
 $ npm install
 ```
 ### Configure Project Files
@@ -163,14 +168,14 @@ The meaning of these placeholders are:
 | YOUR_ROLE_ARN | Optional. Used during debugging and testing so that Lambda role has trust relationship with test user. Set by `npm run configure:rolearn:dev` which is run by `npm run deploy:dev:sls` |
 
 There are three ways you can update these placeholder values:
-1. Manually open each file and replace the placeholder value with the actual value
-2. Run `npm run configure` with no parameters. You will be prompted for values.
+1. Run `npm run configure` with no parameters. You will be prompted for values. (recommended)
+2. Manually open each file and replace the placeholder value with the actual value
 3. Run the configure command with parameters: 
 
 ```bash
 $ npm run configure -- --skillName 'Fun Facts' --skillNamespace 'organization-skillname' --region 'us-east-1'
 ```
-Note: Make sure to include the "--" after the word, configure.
+Note: Make sure to include the "--" after the word `configure`.
 
 ### Create an AWS IAM Admin User
 This step is not specifically required for setting up this project, but it is a best practice to protect your AWS root user.
@@ -301,7 +306,7 @@ S3 bucket. If you have audio files to use in SSML or images for Home Cards
 this is the place for them.
 
 The value of the `s3.bucketName` key in the stage config file (`src/config/dev.skill.config.json` or `src/prod.config/skill.config.json`)
-determines the name of the target bucket. The bucket name should be different for each stage. 
+determines the name of the target bucket. The bucket name should be different for each stage and must be unique of all other buckets. That is the reason for prefixing the namespace with an organization. 
 
 For example, using these config files:
 
@@ -389,7 +394,7 @@ To deploy skill to AWS Lambda only: `npm run deploy:prod:sls`
 
 ### Debug & Testing Requests
 The `test/requests` folder contains `.json` files for different requests for your skills. You can use the Skill Developer Console to test your skill and then capture and save those requests here.
-The naming convention that I use is the handler function name is the name of the file.
+The naming convention that I use is the handler function name is the name of the file. Although you could have multiple files per handler to test different scenarios.
 
 These requests can be used for both debugging and end-to-end testing.
 
@@ -397,7 +402,7 @@ These requests can be used for both debugging and end-to-end testing.
 If using Visual Studio Code, you are all setup for debugging. 
 
 The `.vscode\launch.json` file points to the `/test/debug/main.js` file. To change the request file that will be passed to the skill locally (`event` variable)
-and therefore to the handler method that will be called, change the `/test/debug/main.js` file.
+and therefore to the handler method that will be called, change the `/test/debug/main.js` file (line 5).
 
 Put request json files in the `test/requests` folder.
 
