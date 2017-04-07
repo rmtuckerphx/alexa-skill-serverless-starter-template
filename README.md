@@ -34,7 +34,7 @@ Use:
 
 ## First-Time-Only Setup
 1. Install [Node.js](https://nodejs.org/en/)
-    - If you are only using Node.js for Lambda development, consider installing the [version of Node.js](https://nodejs.org/en/download/releases/) that matches the [supported Lambda version](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html) which is v4.3.2
+    - If you are only using Node.js for Lambda development, consider installing the [version of Node.js](https://nodejs.org/en/download/releases/) that matches the [supported Lambda version](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html) which is v6.10
     - Installing Node.js will also install Node Package Manager (npm)
 2. Create an [Amazon Web Service account](https://aws.amazon.com/)
 3. Create a user instead of the AWS account root user: [Creating Your First IAM Admin User and Group](http://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html) (save the .csv file locally)
@@ -51,9 +51,9 @@ Use:
 6. Install Serverless Framework
 
     ```bash
-    $ npm install -g serverless@v1.6.1 
+    $ npm install -g serverless 
     ```
-    Note: Serverless 1.7.0 has an issue [EMFILE - too many open files](https://github.com/serverless/serverless/issues/3249) so use 1.6.1 until it is fixed.
+    This template has been tested with serverlesss v1.10.2
 
 7. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 8. Install a code editor. The detailed steps will show you how to use [Visual Studio Code](https://code.visualstudio.com/) to debug your Node.js code locally.
@@ -117,7 +117,7 @@ Follow the AWS documentation at: [Installing the AWS Command Line Interface](htt
 ### Install Serverless Framework
 **Install via npm:**
   ```bash
-  $ npm install -g serverless@v1.6.1 
+  $ npm install -g serverless 
   ```
 
 ### Create a new project based on the Alexa Skill Serverless Starter Template

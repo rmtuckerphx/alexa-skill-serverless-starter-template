@@ -29,9 +29,9 @@
     "open:amz": "node ./npm-scripts/open-amazon.js"   
   },
   "dependencies": {
-    "alexa-sdk": "^1.0.6",
-    "aws-sdk": "^2.7.19",
-    "lodash": "^4.16.4"
+    "alexa-sdk": "^1.0.8",
+    "aws-sdk": "^2.22.0",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "attrs.argv": "^0.2.0-a",
