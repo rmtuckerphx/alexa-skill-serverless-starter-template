@@ -34,7 +34,7 @@ Use:
 
 ## First-Time-Only Setup
 1. Install [Node.js](https://nodejs.org/en/)
-    - If you are only using Node.js for Lambda development, consider installing the [version of Node.js](https://nodejs.org/en/download/releases/) that matches the [supported Lambda version](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html) which is v4.3.2
+    - If you are only using Node.js for Lambda development, consider installing the [version of Node.js](https://nodejs.org/en/download/releases/) that matches the [supported Lambda version](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html) which is v6.10
     - Installing Node.js will also install Node Package Manager (npm)
 2. Create an [Amazon Web Service account](https://aws.amazon.com/)
 3. Create a user instead of the AWS account root user: [Creating Your First IAM Admin User and Group](http://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html) (save the .csv file locally)
@@ -51,15 +51,15 @@ Use:
 6. Install Serverless Framework
 
     ```bash
-    $ npm install -g serverless@v1.6.1 
+    $ npm install -g serverless 
     ```
-    Note: Serverless 1.7.0 has an issue [EMFILE - too many open files](https://github.com/serverless/serverless/issues/3249) so use 1.6.1 until it is fixed.
+    This template has been tested with serverlesss v1.10.2
 
 7. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 8. Install a code editor. The detailed steps will show you how to use [Visual Studio Code](https://code.visualstudio.com/) to debug your Node.js code locally.
 
 ## Quick Setup
-Only 7 steps and no more than 7 minutes:
+Only 9 steps and no more than 9 minutes:
 
 1. Clone project repository. You need to run `npm install` in both the `src` and `test` folders. AFTER THAT all commands are run from `src`.
 
@@ -83,23 +83,26 @@ Only 7 steps and no more than 7 minutes:
     $ npm run iam
     ```
 
-4. Initial deploy to AWS Lambda & copy Lambda ARN
+4. Initial deploy to AWS Lambda
 
     ```bash
     $ npm run deploy:dev:sls
     ```
+    
 
-5. Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html)
-
-    Open Amazon Developer website and AWS website by:
-
+5. Open Amazon Developer website and AWS console website by:
+ 
     ```bash
     $ npm run open:amz
-    ``` 
+    ```    
+6. Copy Lambda ARN from [AWS Console](https://console.aws.amazon.com/lambda/) for use in next step
 
-6. Copy Alexa Skill ID to config files
+7.  Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html) and set Lambda ARN value
 
-7. Deploy skill to AWS Lambda & S3
+
+8. Copy Alexa Skill ID from last step to config file(s)
+
+9. Deploy skill to AWS Lambda & S3
 
     ```bash
     $ npm run deploy:dev
@@ -117,7 +120,7 @@ Follow the AWS documentation at: [Installing the AWS Command Line Interface](htt
 ### Install Serverless Framework
 **Install via npm:**
   ```bash
-  $ npm install -g serverless@v1.6.1 
+  $ npm install -g serverless 
   ```
 
 ### Create a new project based on the Alexa Skill Serverless Starter Template

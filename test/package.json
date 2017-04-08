@@ -8,10 +8,10 @@
   "scripts": {},
   "dependencies": {},
   "devDependencies": {
-    "aws-sdk": "^2.9.0",
+    "aws-sdk": "^2.22.0",
     "chai": "^3.5.0",
     "clear-require": "^2.0.0",    
-    "lambda-local": "^1.3.0",
+    "lambda-local": "^1.4.2",
     "winston": "^2.3.1"    
   }
 }

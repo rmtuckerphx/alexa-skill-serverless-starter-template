@@ -19,7 +19,7 @@ package:
 
 provider:
   name: aws
-  runtime: nodejs4.3
+  runtime: nodejs6.10
   region: YOUR_REGION
   stage: ${opt:stage, self:custom.defaultStage}
   profile: ${self:custom.profiles.${self:provider.stage}}
