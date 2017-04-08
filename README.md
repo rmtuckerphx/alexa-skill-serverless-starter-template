@@ -59,7 +59,7 @@ Use:
 8. Install a code editor. The detailed steps will show you how to use [Visual Studio Code](https://code.visualstudio.com/) to debug your Node.js code locally.
 
 ## Quick Setup
-Only 7 steps and no more than 7 minutes:
+Only 9 steps and no more than 9 minutes:
 
 1. Clone project repository. You need to run `npm install` in both the `src` and `test` folders. AFTER THAT all commands are run from `src`.
 
@@ -83,23 +83,26 @@ Only 7 steps and no more than 7 minutes:
     $ npm run iam
     ```
 
-4. Initial deploy to AWS Lambda & copy Lambda ARN
+4. Initial deploy to AWS Lambda
 
     ```bash
     $ npm run deploy:dev:sls
     ```
+    
 
-5. Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html)
-
-    Open Amazon Developer website and AWS website by:
-
+5. Open Amazon Developer website and AWS console website by:
+ 
     ```bash
     $ npm run open:amz
-    ``` 
+    ```    
+6. Copy Lambda ARN from [AWS Console](https://console.aws.amazon.com/lambda/) for use in next step
 
-6. Copy Alexa Skill ID to config files
+7.  Add Skill at [Alexa Skills Kit website](https://developer.amazon.com/edw/home.html) and set Lambda ARN value
 
-7. Deploy skill to AWS Lambda & S3
+
+8. Copy Alexa Skill ID from last step to config file(s)
+
+9. Deploy skill to AWS Lambda & S3
 
     ```bash
     $ npm run deploy:dev
