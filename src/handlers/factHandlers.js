@@ -58,8 +58,7 @@ const factHandlers = {
 
         console.log('Private.EmitFact VoiceLabs.track');
         //VI-REMOVE:VoiceLabs.track(this.event.session, intent.name, null, ssmlResponse.speechOutput, (error, response) => {
-
-            console.log('error: ' + JSON.stringify(error, null, '  ')  + '; response: ' + JSON.stringify(response, null, '  '));
+            //VI-REMOVE:console.log('error: ' + JSON.stringify(error, null, '  ')  + '; response: ' + JSON.stringify(response, null, '  '));
 
             if (isNewSession) {
                 this.attributes.speechOutput = " ";

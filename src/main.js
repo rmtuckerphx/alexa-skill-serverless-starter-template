@@ -23,8 +23,9 @@ module.exports.handler = (event, context, callback) => {
             const alexa = Alexa.handler(event, context);            
             alexa.appId = Config.skillAppID;
 
-            console.log('main: alexa.dynamoDBTableName');
-            alexa.dynamoDBTableName = Config.dynamoDBTableName;
+            // Uncomment to use DynamoDB to store user state
+            // console.log('main: alexa.dynamoDBTableName');
+            // alexa.dynamoDBTableName = Config.dynamoDBTableName;
 
             console.log('main: alexa.resources');
             alexa.resources = data; 

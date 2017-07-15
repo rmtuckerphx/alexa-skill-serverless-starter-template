@@ -20,7 +20,7 @@ const defaultHandlers = {
 
         console.log('LaunchRequest VoiceLabs.track');
         //VI-REMOVE:VoiceLabs.track(this.event.session, 'LaunchRequest', null, ssmlResponse.speechOutput, (error, response) => {
-            console.log('error: ' + JSON.stringify(error, null, '  ') + '; response: ' + JSON.stringify(response, null, '  '));
+            //VI-REMOVE:console.log('error: ' + JSON.stringify(error, null, '  ') + '; response: ' + JSON.stringify(response, null, '  '));
             this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
         //VI-REMOVE:});
     },
