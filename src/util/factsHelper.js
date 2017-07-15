@@ -16,17 +16,17 @@ module.exports = (function () {
                 reprompt = ' <break time=\"500ms\"/> ' + _.sample(this.t('reprompts'));
             }
 
-            let title = this.t('getFact.title', index + 1);
-            let speechOutput = title + ': ' + item + reprompt;
-            let cardContent = util.replaceTags(item);
-            let cardImages = this.t('getFact.cardImages', Config.s3.bucketName);
+            // let title = this.t('getFact.title', index + 1);
+            let speechOutput = item + reprompt;
+            // let cardContent = util.replaceTags(item);
+            // let cardImages = this.t('getFact.cardImages', Config.s3.bucketName);
 
             let response = { 
                 speechOutput: speechOutput,
                 reprompt: reprompt,
-                cardTitle: title,
-                cardContent: cardContent,
-                cardImages: cardImages
+                // cardTitle: title,
+                // cardContent: cardContent,
+                // cardImages: cardImages
             };
 
             return response;            

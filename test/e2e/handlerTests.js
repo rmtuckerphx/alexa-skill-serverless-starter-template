@@ -34,7 +34,7 @@ function getEvent(fileName, isNewSession) {
     return event;
 }
 
-describe('Meetup Sample', function () {
+describe('Skill Tests', function () {
 
     context('LaunchRequest', function () {
         let done, err;
