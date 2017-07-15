@@ -18,7 +18,7 @@ const defaultHandlers = {
         this.attributes.speechOutput = ssmlResponse.speechOutput;
         this.attributes.repromptSpeech = ssmlResponse.reprompt;
 
-        console.log('LaunchRequest VoiceLabs.track');
+        //VI-REMOVE:console.log('LaunchRequest VoiceLabs.track');
         //VI-REMOVE:VoiceLabs.track(this.event.session, 'LaunchRequest', null, ssmlResponse.speechOutput, (error, response) => {
             //VI-REMOVE:console.log('error: ' + JSON.stringify(error, null, '  ') + '; response: ' + JSON.stringify(response, null, '  '));
             this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
@@ -55,7 +55,7 @@ const defaultHandlers = {
     'SessionEndedRequest': function () {
         console.log('SessionEndedRequest');
 
-        let ssmlResponse = this.t('goodbye');
+        let ssmlResponse = this.t('goodbye', Config.s3.bucketName);
 
         this.attributes.speechOutput = " ";
         this.attributes.repromptSpeech = " ";

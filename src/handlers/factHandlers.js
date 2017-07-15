@@ -56,7 +56,7 @@ const factHandlers = {
         let intent = this.event.request.intent;
         let isNewSession = this.event.session.new;
 
-        console.log('Private.EmitFact VoiceLabs.track');
+        //VI-REMOVE:console.log('Private.EmitFact VoiceLabs.track');
         //VI-REMOVE:VoiceLabs.track(this.event.session, intent.name, null, ssmlResponse.speechOutput, (error, response) => {
             //VI-REMOVE:console.log('error: ' + JSON.stringify(error, null, '  ')  + '; response: ' + JSON.stringify(response, null, '  '));
 
