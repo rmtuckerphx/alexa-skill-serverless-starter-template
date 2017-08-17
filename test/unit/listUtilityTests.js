@@ -1,6 +1,6 @@
 'use strict';
 
-const ListUtility = require('../../src/listUtility');
+const ListUtility = require('../../src/util/listUtility');
 const expect = require( 'chai' ).expect;
 const assert = require( 'chai' ).assert;
 
