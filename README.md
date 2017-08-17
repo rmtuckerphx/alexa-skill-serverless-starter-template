@@ -445,7 +445,7 @@ This template is setup to use [VoiceInsights](http://voicelabs.co/) for tracking
 4. Install the VoiceInsights SDK in the `src` folder:
 
     ```bash
-    $ npm install voice-insights-sdk --save
+    $ npm install voicelabs --save
     ```
 
 5. Deploy and test your skill.
