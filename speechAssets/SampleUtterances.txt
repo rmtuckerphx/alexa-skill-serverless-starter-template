@@ -11,9 +11,6 @@ GetNewFactIntent tell me something I don't know
 GetNewFactIntent tell me something interesting
 GetNewFactIntent tell me something cool
 GetNewFactIntent tell me a cool fact
-GetFactByNumberIntent fact number {number}
-GetFactByNumberIntent tell me fact number {number}
-GetFactByNumberIntent tell me fact {number}
 AMAZON.StopIntent stop
 AMAZON.StopIntent off
 AMAZON.StopIntent end

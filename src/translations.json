@@ -6,7 +6,7 @@
         "reprompt": "What can I tell you about?"
       },
       "help": {
-        "speechOutput": "Here are some things you can say: %s If you're done, you can also say: stop. So, how can I help?",
+        "speechOutput": "You can ask me about any of these things: <break time='400ms'/>a new fact. <break time='400ms'/>At any time, you can say 'repeat' or 'help' and when you are done, say 'goodbye'. Which would you like to do?",
         "reprompt": "How can I help you?"
       },
       "reprompts": [
