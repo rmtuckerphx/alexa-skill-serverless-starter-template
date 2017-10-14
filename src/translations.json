@@ -2,7 +2,7 @@
   "en": {
     "translation": {
       "welcome": {
-        "speechOutput": "%s can share facts and maybe do other things.  For more details, say help. So, what would you like?",
+        "speechOutput": "I can share facts and maybe do other things.  For more details, say help. So, what would you like?",
         "reprompt": "What can I tell you about?"
       },
       "help": {
