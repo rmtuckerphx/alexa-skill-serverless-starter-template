@@ -1,13 +1,6 @@
 {
   "en": {
     "translation": {
-      "skill": {
-        "name": "YOUR_SKILL_NAME"
-      },      
-      "about": {
-        "contentVersion": 1,
-        "lastUpdated": "2017-01-12"
-      },
       "welcome": {
         "speechOutput": "%s can share facts and maybe do other things.  For more details, say help. So, what would you like?",
         "reprompt": "What can I tell you about?"
@@ -41,6 +34,10 @@
         "The sky is blue",
         "Alexa is my friend"
       ],
+      "factError": {
+        "speechOutput": " All out of facts right now. Try again later. ",
+        "reprompt": " If you are not sure what to do, say help. To end, say: goodbye. "
+      },         
       "getFact": {
         "title": "Fact %d",
         "invalidIndex": "I cannot find fact %d. Currently, I have %d facts that I can share. Please ask for a different fact number, a new fact, or give me a different instruction.",
