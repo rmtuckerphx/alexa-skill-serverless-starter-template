@@ -23,10 +23,10 @@
     "predeploy:prod:s3": "node ./npm-scripts/check-configure.js && node ./npm-scripts/pre-deploy-s3.js --stage=prod",
     "test": "mocha ../test/**/*.js --reporter spec",
     "test:unit": "mocha ../test/unit/*.js --reporter spec",
-    "test:e2e": "mocha ../test/e2e/*.js --reporter spec",
+    "test:e2e": "mocha ../test/e2e/*.js --reporter spec",    
     "configure:rolearn:dev": "node ./npm-scripts/configure-role-arn.js --stage=dev",
     "iam:trust:dev": "node ./npm-scripts/iam-trust.js --stage=dev",
-    "open:amz": "node ./npm-scripts/open-amazon.js"
+    "open:amz": "node ./npm-scripts/open-amazon.js"   
   },
   "dependencies": {
     "alexa-sdk": "^1.0.14",
@@ -37,12 +37,11 @@
   "devDependencies": {
     "attrs.argv": "^0.2.0-a",
     "cp": "^0.2.0",
-    "mocha": "^5.2.0",
+    "mocha": "^3.2.0",
     "npm-run-script": "0.0.4",
-    "opn": "^4.0.2",
     "prompt": "^1.0.0",
-    "serverless": "^1.28.0",
-    "synchronize": "github:alexeypetrushin/synchronize",
-    "urldecode": "^1.0.1"
+    "synchronize": "alexeypetrushin/synchronize",
+    "urldecode": "^1.0.1",
+    "opn": "^4.0.2"
   }
 }
