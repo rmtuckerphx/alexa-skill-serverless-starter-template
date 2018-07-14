@@ -5,9 +5,7 @@ console.log('Handler: factHandlers');
 
 const _ = require('lodash');
 const ListUtility = require('../util/listUtility');
-const Config = require('../config/skill.config');
 const bitArrayHelper = require('../util/bitArrayHelper');
-//VI-REMOVE:const VoiceLabs = require('voicelabs')(Config.trackingToken);
 
 const factHandlers = {
 
@@ -56,27 +54,20 @@ const factHandlers = {
         let intent = this.event.request.intent;
         let isNewSession = this.event.session.new;
 
-        //VI-REMOVE:console.log('Private.EmitFact VoiceLabs.track');
-        //VI-REMOVE:VoiceLabs.track(this.event.session, intent.name, null, ssmlResponse.speechOutput, (error, response) => {
-            //VI-REMOVE:console.log('error: ' + JSON.stringify(error, null, '  ')  + '; response: ' + JSON.stringify(response, null, '  '));
+        if (isNewSession) {
+            this.attributes.speechOutput = " ";
+            this.attributes.repromptSpeech = " ";
 
-            if (isNewSession) {
-                this.attributes.speechOutput = " ";
-                this.attributes.repromptSpeech = " ";
+            this.emit(':tell', ssmlResponse.speechOutput);
+        }
+        else {
+            ssmlResponse.speechOutput = ssmlResponse.speechOutput + ' <break time="300ms"/> ' + ssmlResponse.reprompt;
 
-                this.emit(':tell', ssmlResponse.speechOutput);
-            }
-            else {
-                ssmlResponse.speechOutput = ssmlResponse.speechOutput + ' <break time="300ms"/> ' + ssmlResponse.reprompt;
+            this.attributes.speechOutput = ssmlResponse.speechOutput;
+            this.attributes.repromptSpeech = ssmlResponse.reprompt;
 
-                this.attributes.speechOutput = ssmlResponse.speechOutput;
-                this.attributes.repromptSpeech = ssmlResponse.reprompt;
-
-                this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
-            }
-        //VI-REMOVE:});
-
-
+            this.emit(':ask', ssmlResponse.speechOutput, ssmlResponse.reprompt);
+        }
     }
 };
 

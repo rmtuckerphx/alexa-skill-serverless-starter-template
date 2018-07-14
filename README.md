@@ -23,7 +23,6 @@ The following are used in this template:
     - CloudFormation
     - CloudWatch
     - DynamoDB (optional)
-- VoiceInsights (optional)
 
 You can create an Alexa skill even if you don't have an Alexa device. 
 
@@ -434,19 +433,3 @@ Execute the tests using `npm run test:unit`
 All `.js` files in the `test/unit` folder will be executed.
 
 To debug unit tests, from the DEBUG dropdown in Visual Studio Code, select `Run Mocha - unit tests`
-
-## Analytics
-
-This template is setup to use [VoiceInsights](http://voicelabs.co/) for tracking voice analytics.
-
-1. To get started, create an account on VoiceLabs.co and create two applications (one for dev and the other for prod)
-2. Copy the API token value for each application into the corresponding configuration file (`dev.skill.config.json` or `prod.skill.config.json`) for the `trackingToken` key.
-3. In `src/main.js`, do a search for all strings '//VI-REMOVE:' and replace them with an empty string ('');
-4. Install the Voicelabs Insights SDK in the `src` folder:
-
-    ```bash
-    $ npm install voicelabs --save
-    ```
-
-5. Deploy and test your skill.
-6. Analytics will appear on the Voicelabs Insights website.
